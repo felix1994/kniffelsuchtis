@@ -17,11 +17,13 @@ public class Player {
         int x = Integer.parseInt(value);
         this.gesamtPunktzahl += x;
         this.durschnittlichePunktzahl = this.gesamtPunktzahl / this.gespielteSpiele;
+        this.durschnittlichePunktzahl  =Math.round(this.durschnittlichePunktzahl * 100) / 100;
     }
 
     public void addToGesamtzahlungen(int value) {
         this.gesamteZahlungen += value;
         this.durschnittlichezahlungProSpiel = this.gesamteZahlungen / this.gespielteSpiele;
+        this.durschnittlichezahlungProSpiel  =Math.round(this.durschnittlichezahlungProSpiel * 100) / 100;
     }
 
     public int getGesamtPunktzahl() {
@@ -37,11 +39,11 @@ public class Player {
     }
 
     public double getDurschnittlichezahlungProSpiel() {
-        return durschnittlichezahlungProSpiel;
+        return Math.round( 100 * durschnittlichezahlungProSpiel) /100;
     }
 
     public int getDurschnittlichePunktzahl() {
-        return durschnittlichePunktzahl;
+        return Math.round(100 * durschnittlichePunktzahl) / 100;
     }
 
     public int getGespielteSpiele() {
@@ -74,5 +76,9 @@ public class Player {
 
     public void addGespieltesSpiel() {
         this.gespielteSpiele++;
+    }
+    
+    public void format(int value){
+    	
     }
 }
