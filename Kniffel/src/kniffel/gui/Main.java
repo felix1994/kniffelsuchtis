@@ -203,10 +203,16 @@ public class Main {
 				try {
 					doExport(table);
 				} catch (DocumentException e) {
-					// TODO Auto-generated catch block
+					MessageBox box = new MessageBox(shell, SWT.OK);
+					box.setText("My info");
+					box.setMessage("Exportieren fehlgeschlagen !");
+					box.open();
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					MessageBox box = new MessageBox(shell, SWT.OK);
+					box.setText("My info");
+					box.setMessage("Exportieren fehlgeschlagen !");
+					box.open();
 					e.printStackTrace();
 				}
 			}

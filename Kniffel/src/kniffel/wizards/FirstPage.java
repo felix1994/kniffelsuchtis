@@ -46,10 +46,13 @@ public class FirstPage extends WizardPage {
 		setTitle("Neues Spiel hinzufügen");
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout gd = new GridLayout(8, true);
+		GridData gdd = new GridData(SWT.CENTER, SWT.CENTER,
+				true, false);
+		gdd.horizontalSpan = 8;
 		composite.setLayout(gd);
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("#Spieler");
-		label.setSize(200, 200);
+		label.setText("Anzahl Spieler");
+		label.setLayoutData(gdd);
 		combo = new Combo(composite, SWT.NONE);
 		combo.add("2");
 		combo.add("3");
@@ -59,7 +62,7 @@ public class FirstPage extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent arg0) {
 				anzahlSpieler = Integer.parseInt(combo.getText());
-				displayNewFields2(combo.getText(), parent);
+				displayNewFields(combo.getText(), parent);
 				setPageComplete(false);
 
 			}
@@ -76,16 +79,16 @@ public class FirstPage extends WizardPage {
 
 			}
 		});
-		GridData gdd = new GridData();
-		gdd.horizontalSpan = 4;
-		label.setLayoutData(gdd);
+		
 		combo.setLayoutData(gdd);
 		setPageComplete(false);
 		setControl(composite);
 
 	}
 
-	public void displayNewFields2(String value, Composite parent) {
+	public void displayNewFields(String value, Composite parent) {
+		GridData gd_allg = new GridData(SWT.CENTER, SWT.CENTER,
+				true, false, 1, 1);
 		int players = Integer.parseInt(value);
 		clearControls();
 		switch (players) {
@@ -99,6 +102,9 @@ public class FirstPage extends WizardPage {
 			Label lblSpieler_1 = new Label(composite, SWT.NONE);
 			lblSpieler_1.setAlignment(SWT.CENTER);
 			lblSpieler_1.setText("Spieler 2");
+			
+			lblSpieler.setLayoutData(gd_allg);
+			lblSpieler_1.setLayoutData(gd_allg);
 
 			final Combo combo = new Combo(composite, SWT.NONE);
 			addNames(combo);
@@ -121,6 +127,8 @@ public class FirstPage extends WizardPage {
 
 				}
 			});
+			combo.setLayoutData(gd_allg);
+			combo_1.setLayoutData(gd_allg);
 
 			final Text text = new Text(composite, SWT.BORDER);
 			text.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
@@ -130,6 +138,10 @@ public class FirstPage extends WizardPage {
 			final Text text_1 = new Text(composite, SWT.BORDER);
 			text_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
+			
+			text.setLayoutData(gd_allg);
+			text_1.setLayoutData(gd_allg);
+			
 			addTextModAndVerfList(text_1, "1");
 			addComboVerfList(combo);
 			addComboVerfList(combo_1);
@@ -154,12 +166,12 @@ public class FirstPage extends WizardPage {
 			lblSpieler_3.setText("Spieler 2");
 
 			Label lblSpieler_2 = new Label(composite, SWT.NONE);
-			GridData gd_lblSpieler_2 = new GridData(SWT.CENTER, SWT.CENTER,
-					false, false, 1, 1);
-			gd_lblSpieler_2.widthHint = 84;
-			lblSpieler_2.setLayoutData(gd_lblSpieler_2);
 			lblSpieler_2.setText("Spieler 3");
 
+			lblSpieler4.setLayoutData(gd_allg);
+			lblSpieler_3.setLayoutData(gd_allg);
+			lblSpieler_2.setLayoutData(gd_allg);
+			
 			final Combo combo4 = new Combo(composite, SWT.NONE);
 			addNames(combo4);
 			combo4.addModifyListener(new ModifyListener() {
@@ -194,7 +206,11 @@ public class FirstPage extends WizardPage {
 
 				}
 			});
-
+					
+			combo2.setLayoutData(gd_allg);
+			combo3.setLayoutData(gd_allg);
+			combo4.setLayoutData(gd_allg);
+			
 			final Text text2 = new Text(composite, SWT.BORDER);
 			text2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
@@ -212,6 +228,10 @@ public class FirstPage extends WizardPage {
 			addComboVerfList(combo2);
 			addComboVerfList(combo3);
 			addComboVerfList(combo4);
+			
+			text2.setLayoutData(gd_allg);
+			text3.setLayoutData(gd_allg);
+			text4.setLayoutData(gd_allg);
 
 			controls.add(text2);
 			controls.add(text3);
@@ -235,14 +255,15 @@ public class FirstPage extends WizardPage {
 			lblSpieler6.setText("Spieler 2");
 
 			Label lblSpieler7 = new Label(composite, SWT.NONE);
-			GridData gd_lblSpieler7 = new GridData(SWT.CENTER, SWT.CENTER,
-					false, false, 1, 1);
-			gd_lblSpieler7.widthHint = 84;
-			lblSpieler7.setLayoutData(gd_lblSpieler7);
 			lblSpieler7.setText("Spieler 3");
 
 			Label lblSpieler8 = new Label(composite, SWT.NONE);
 			lblSpieler8.setText("Spieler 4");
+			
+			lblSpieler5.setLayoutData(gd_allg);
+			lblSpieler6.setLayoutData(gd_allg);
+			lblSpieler7.setLayoutData(gd_allg);
+			lblSpieler8.setLayoutData(gd_allg);
 
 			final Combo combo6 = new Combo(composite, SWT.NONE);
 			addNames(combo6);
@@ -291,6 +312,11 @@ public class FirstPage extends WizardPage {
 
 				}
 			});
+			
+			combo5.setLayoutData(gd_allg);
+			combo6.setLayoutData(gd_allg);
+			combo7.setLayoutData(gd_allg);
+			combo8.setLayoutData(gd_allg);
 
 			final Text text6 = new Text(composite, SWT.BORDER);
 			text6.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
@@ -310,6 +336,12 @@ public class FirstPage extends WizardPage {
 			final Text text8 = new Text(composite, SWT.BORDER);
 			text8.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 					1, 1));
+			
+			text5.setLayoutData(gd_allg);
+			text6.setLayoutData(gd_allg);
+			text7.setLayoutData(gd_allg);
+			text8.setLayoutData(gd_allg);
+			
 			addTextModAndVerfList(text8, "3");
 			addComboVerfList(combo5);
 			addComboVerfList(combo6);
