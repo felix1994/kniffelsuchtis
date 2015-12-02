@@ -20,6 +20,7 @@ import kniffel.wizards.MainWizard;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -243,6 +244,37 @@ public class Main {
 			}
 		});
 		mntmPdfExportieren.setText("PDF exportieren");
+		
+		MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
+		regeln.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				final Browser browser = new Browser(shell, SWT.NONE);
+				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
+				final Button button = new Button(shell,SWT.PUSH);
+				button.setText("Schlieﬂen");
+				button.addSelectionListener(new SelectionListener() {
+					
+					@Override
+					public void widgetSelected(SelectionEvent arg0) {
+						browser.close();
+						button.dispose();
+						shell.layout();
+						
+					}
+					
+					@Override
+					public void widgetDefaultSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
+				shell.layout();
+			}
+		});
+		regeln.setText("Kniffel Regeln");
 
 		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4, tableItem_5);
 
@@ -582,12 +614,16 @@ public class Main {
 			return "Merci beaucoup";
 		if(x<81 && x>60)
 			return "da macht Kniffeln Spaﬂ, nichtwahr ?";
-		if(x<61 && x>40)
+		if(x<61 && x>50)
 			return "und die Kasse klingelt";
-		if(x<41 && x>20)
+		if(x<51 && x>40)
+			return "Money Money Money";
+		if(x<41 && x>30)
 			return "Immer rein in die Kasse";
-		if(x<21 && x>0)
+		if(x<31 && x>10)
+			return "N‰chstes Mal einfach BEHARRLICHER spielen";
+		if(x<11 && x>0)
 			return "Zaaaahltag";
-		return "";
+		return "Zaaaahltag";
 	}
 }
