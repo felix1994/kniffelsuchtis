@@ -94,7 +94,7 @@ public class Main {
 		shell = new Shell();
 		Image img = new Image(shell.getDisplay(), "becher.jpg");
 		shell.setBackgroundImage(img);
-		shell.setSize(900, 600);
+		shell.setSize(750, 400);
 		shell.setText("Kniffelsuchtis");
 		shell.setLayout(new GridLayout(3, false));
 		// Player-Map befüllen
@@ -124,11 +124,12 @@ public class Main {
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setTouchEnabled(true);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1);
-		gd_table.widthHint = 950;
+		gd_table.widthHint = 650;
 		gd_table.heightHint = 200;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		
 
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE,0);
 		tblclmnNewColumn.setWidth(119);
@@ -415,8 +416,8 @@ public class Main {
 		Calendar cal = Calendar.getInstance();
 		String date = cal.getTime().toString();
 		String formattedDate = date.substring(4, 10);
-		final String PDF = "/Users/FFRITZSC/Kniffelstand"
-				+ formattedDate.trim() + ".pdf";
+		//final String PDF = "/Users/FFRITZSC/Kniffelstand"
+				//+ formattedDate.trim() + ".pdf";
 		final String PDF2 = System.getProperty("user.dir") + "/Kniffelstand_"
 				+ formattedDate + ".pdf";
 		Document document = new Document();
