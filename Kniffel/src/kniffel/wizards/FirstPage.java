@@ -131,6 +131,7 @@ public class FirstPage extends WizardPage {
 			combo_1.setLayoutData(gd_allg);
 
 			final Text text = new Text(composite, SWT.BORDER);
+			text.setMessage("Punktzahl");
 			text.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
 			addTextModAndVerfList(text, "0");
@@ -141,7 +142,7 @@ public class FirstPage extends WizardPage {
 			
 			text.setLayoutData(gd_allg);
 			text_1.setLayoutData(gd_allg);
-			
+			text_1.setMessage("Punktzahl");
 			addTextModAndVerfList(text_1, "1");
 			addComboVerfList(combo);
 			addComboVerfList(combo_1);
@@ -212,16 +213,19 @@ public class FirstPage extends WizardPage {
 			combo4.setLayoutData(gd_allg);
 			
 			final Text text2 = new Text(composite, SWT.BORDER);
+			text2.setMessage("Punktzahl");
 			text2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
 			addTextModAndVerfList(text2, "0");
 
 			final Text text3 = new Text(composite, SWT.BORDER);
+			text3.setMessage("Punktzahl");
 			text3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
 			addTextModAndVerfList(text3, "1");
 
 			final Text text4 = new Text(composite, SWT.BORDER);
+			text4.setMessage("Punktzahl");
 			text4.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 					1, 1));
 			addTextModAndVerfList(text4, "2");
@@ -319,21 +323,25 @@ public class FirstPage extends WizardPage {
 			combo8.setLayoutData(gd_allg);
 
 			final Text text6 = new Text(composite, SWT.BORDER);
+			text6.setMessage("Punktzahl");
 			text6.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
 			addTextModAndVerfList(text6, "0");
 
 			final Text text5 = new Text(composite, SWT.BORDER);
+			text5.setMessage("Punktzahl");
 			text5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
 			addTextModAndVerfList(text5, "1");
 
 			final Text text7 = new Text(composite, SWT.BORDER);
+			text7.setMessage("Punktzahl");
 			text7.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 					1, 1));
 			addTextModAndVerfList(text7, "2");
 
 			final Text text8 = new Text(composite, SWT.BORDER);
+			text8.setMessage("Punktzahl");
 			text8.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 					1, 1));
 			
