@@ -8,6 +8,7 @@ public class Player {
 	private int durschnittlichePunktzahl;
 	private int gespielteSpiele;
 	private int gesamtPunktzahl;
+	private double offeneZahlungen;
 
 	public Player(String name) {
 		this.name = name;
@@ -23,6 +24,7 @@ public class Player {
 	}
 
 	public void addToGesamtzahlungen(int value) {
+		this.offeneZahlungen += value;
 		this.gesamteZahlungen += value;
 		this.durschnittlichezahlungProSpiel = this.gesamteZahlungen
 				/ this.gespielteSpiele;
@@ -82,7 +84,21 @@ public class Player {
 		this.gespielteSpiele++;
 	}
 
-	public void format(int value) {
-
+	public double getOffeneZahlungen() {
+		return offeneZahlungen;
 	}
+
+	public void addToOffeneZahlungen(int offeneZahlungen) {
+		this.offeneZahlungen += offeneZahlungen;
+	}
+	
+	public void bezhalen(){
+		this.offeneZahlungen = 0;
+	}
+	
+	public void setOffeneZahlungen(String value){
+		this.offeneZahlungen = Double.parseDouble(value);
+	}
+
+	
 }

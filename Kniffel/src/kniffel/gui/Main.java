@@ -17,11 +17,16 @@ import kniffel.wizards.MainWizard;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
@@ -119,30 +124,30 @@ public class Main {
 		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setTouchEnabled(true);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1);
-		gd_table.widthHint = 650;
+		gd_table.widthHint = 950;
 		gd_table.heightHint = 200;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE,0);
 		tblclmnNewColumn.setWidth(119);
 		tblclmnNewColumn.setText("...");
 		tblclmnNewColumn.setWidth(270);
 
-		TableColumn tblclmnAndy = new TableColumn(table, SWT.CENTER);
+		TableColumn tblclmnAndy = new TableColumn(table, SWT.CENTER,1);
 		tblclmnAndy.setWidth(100);
 		tblclmnAndy.setText("Andy");
 
-		TableColumn tblclmnClaudi = new TableColumn(table, SWT.CENTER);
+		TableColumn tblclmnClaudi = new TableColumn(table, SWT.CENTER,2);
 		tblclmnClaudi.setWidth(100);
 		tblclmnClaudi.setText("Claudi");
 
-		TableColumn tblclmnFlo = new TableColumn(table, SWT.CENTER);
+		TableColumn tblclmnFlo = new TableColumn(table, SWT.CENTER,3);
 		tblclmnFlo.setWidth(100);
 		tblclmnFlo.setText("Flo");
 
-		TableColumn tblclmnFelix = new TableColumn(table, SWT.CENTER);
+		TableColumn tblclmnFelix = new TableColumn(table, SWT.CENTER,4);
 		tblclmnFelix.setWidth(100);
 		tblclmnFelix.setText("Felix");
 
@@ -155,11 +160,19 @@ public class Main {
 		final TableItem tableItem_2 = new TableItem(table, SWT.NONE);
 		tableItem_2.setText("Durchschn pktzahl pro Spiel");
 
-		TableItem tableItem_3 = new TableItem(table, SWT.NONE);
-		tableItem_3.setText(" ");
-
 		final TableItem tableItem_4 = new TableItem(table, SWT.NONE);
 		tableItem_4.setText("#gespielte Spiele");
+		
+		final TableItem tableItem_3 = new TableItem(table, SWT.NONE);
+		tableItem_3.setText("");
+		
+		final TableItem tableItem_5 = new TableItem(table, SWT.NONE);
+		tableItem_5.setText("offene Zahlungen");
+		
+		final TableItem tableItem_6 = new TableItem(table, SWT.NONE);
+		addBezahlenButton(tableItem_6, tableItem_5);
+		
+		
 		MenuItem mntmNeu = new MenuItem(menu_1, SWT.NONE);
 		mntmNeu.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -178,8 +191,9 @@ public class Main {
 						displayTableItem(tableItem_1,
 								"Durchschnittl. Zahlung pro Spiel");
 						displayTableItem(tableItem_2,
-								"Durchschnittl. Punktzahl");
+								"Durchschnittl. Punktzahl pro Spiel");
 						displayTableItem(tableItem_4, "Gespielte Spiele");
+						displayTableItem(tableItem_5, "offene Zahlungen");
 						MessageBox box2 = new MessageBox(shell, SWT.OK);
 						box2.setText("Info");
 						box2.setMessage("Ergebnisse erfolgreich gespeichert");
@@ -219,7 +233,7 @@ public class Main {
 		});
 		mntmPdfExportieren.setText("PDF exportieren");
 
-		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4);
+		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4, tableItem_5);
 
 	}
 
@@ -235,6 +249,7 @@ public class Main {
 			pWriter.println(Integer.toString(Andy.getDurschnittlichePunktzahl()));
 			pWriter.println(Integer.toString(Andy.getGespielteSpiele()));
 			pWriter.println(Integer.toString(Andy.getGesamtPunktzahl()));
+			pWriter.println(Double.toString(Andy.getOffeneZahlungen()));
 			pWriter.println("Claudi");
 			pWriter.println(Double.toString(Claudi.getGesamteZahlungen()));
 			pWriter.println(Double.toString(Claudi
@@ -243,6 +258,7 @@ public class Main {
 					.getDurschnittlichePunktzahl()));
 			pWriter.println(Integer.toString(Claudi.getGespielteSpiele()));
 			pWriter.println(Integer.toString(Claudi.getGesamtPunktzahl()));
+			pWriter.println(Double.toString(Claudi.getOffeneZahlungen()));
 			pWriter.println("Flo");
 			pWriter.println(Double.toString(Flo.getGesamteZahlungen()));
 			pWriter.println(Double.toString(Flo
@@ -250,6 +266,7 @@ public class Main {
 			pWriter.println(Integer.toString(Flo.getDurschnittlichePunktzahl()));
 			pWriter.println(Integer.toString(Flo.getGespielteSpiele()));
 			pWriter.println(Integer.toString(Flo.getGesamtPunktzahl()));
+			pWriter.println(Double.toString(Flo.getOffeneZahlungen()));
 			pWriter.println("Felix");
 			pWriter.println(Double.toString(Felix.getGesamteZahlungen()));
 			pWriter.println(Double.toString(Felix
@@ -258,6 +275,7 @@ public class Main {
 					.getDurschnittlichePunktzahl()));
 			pWriter.println(Integer.toString(Felix.getGespielteSpiele()));
 			pWriter.println(Integer.toString(Felix.getGesamtPunktzahl()));
+			pWriter.println(Double.toString(Felix.getOffeneZahlungen()));
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
@@ -270,13 +288,13 @@ public class Main {
 	}
 
 	private void fillStatistic(TableItem tableItem, TableItem tableItem_1,
-			TableItem tableItem_2, TableItem tableItem_4) throws IOException {
+			TableItem tableItem_2, TableItem tableItem_4,TableItem tableItem_5) throws IOException {
 		try {
 			FileReader fr = new FileReader("stats.txt");
 			BufferedReader br = new BufferedReader(fr);
 			String zeile = "";
 			int zähler = 0;
-			while (zähler < 24) {
+			while (zähler < 28) {
 				zeile = br.readLine();
 				if (zeile == null) {
 					zähler++;
@@ -287,6 +305,7 @@ public class Main {
 				String durchpktzahl = br.readLine();
 				String gesamtspiele = br.readLine();
 				String gesamtPunktzahl = br.readLine();
+				String offeneZahlungen = br.readLine();
 				int pkt = Integer.parseInt(gesamtPunktzahl);
 				switch (zeile) {
 				case "Andy":
@@ -295,6 +314,7 @@ public class Main {
 					Andy.setGespielteSpiele(gesamtspiele);
 					Andy.setDurschnittlichezahlungProSpiel(durchzahl);
 					Andy.setGesamtPunktzahl(pkt);
+					Andy.setOffeneZahlungen(offeneZahlungen);
 					break;
 				case "Claudi":
 					Claudi.setDurschnittlichePunktzahl(durchpktzahl);
@@ -302,6 +322,7 @@ public class Main {
 					Claudi.setGespielteSpiele(gesamtspiele);
 					Claudi.setDurschnittlichezahlungProSpiel(durchzahl);
 					Claudi.setGesamtPunktzahl(pkt);
+					Claudi.setOffeneZahlungen(offeneZahlungen);
 					break;
 				case "Felix":
 					Felix.setDurschnittlichePunktzahl(durchpktzahl);
@@ -309,6 +330,7 @@ public class Main {
 					Felix.setGespielteSpiele(gesamtspiele);
 					Felix.setDurschnittlichezahlungProSpiel(durchzahl);
 					Felix.setGesamtPunktzahl(pkt);
+					Felix.setOffeneZahlungen(offeneZahlungen);
 					break;
 				case "Flo":
 					Flo.setDurschnittlichePunktzahl(durchpktzahl);
@@ -316,15 +338,17 @@ public class Main {
 					Flo.setGespielteSpiele(gesamtspiele);
 					Flo.setDurschnittlichezahlungProSpiel(durchzahl);
 					Flo.setGesamtPunktzahl(pkt);
+					Flo.setOffeneZahlungen(offeneZahlungen);
 					break;
 				}
-				zähler += 6;
+				zähler += 7;
 			}
 
 			displayTableItem(tableItem, "Gesamtzahlungen");
 			displayTableItem(tableItem_1, "Durchschnittl. Zahlung pro Spiel");
-			displayTableItem(tableItem_2, "Durchschnittl. Punktzahl");
+			displayTableItem(tableItem_2, "Durchschnittl. Punktzahl pro Spiel");
 			displayTableItem(tableItem_4, "Gespielte Spiele");
+			displayTableItem(tableItem_5, "offene Zahlungen");
 
 			br.close();
 
@@ -361,17 +385,30 @@ public class Main {
 				text[x] = Double.toString(player
 						.getDurschnittlichezahlungProSpiel() / 100) + " €";
 				break;
-			case "Durchschnittl. Punktzahl":
+			case "Durchschnittl. Punktzahl pro Spiel":
 				text[x] = Integer
 						.toString(player.getDurschnittlichePunktzahl());
 				break;
 			case "Gespielte Spiele":
 				text[x] = Integer.toString(player.getGespielteSpiele());
 				break;
+			case "offene Zahlungen":
+				text[x] = Double.toString(player.getOffeneZahlungen() / 100.0 );
+				break;
+			}
+			if(tableItem.getText().equals("offene Zahlungen")){
+				if(text[x].equals("0.0")){
+					Color green = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
+					tableItem.setBackground(x,green);
+				}else{
+					Color red = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+					tableItem.setBackground(x,red);
+				}
 			}
 
 		}
 		tableItem.setText(text);
+		
 	}
 
 	public void doExport(Table table) throws DocumentException, IOException {
@@ -412,6 +449,98 @@ public class Main {
 		document.add(pdfTable);
 		document.close();
 
+	}
+	
+	public void addBezahlenButton(final TableItem tableItem , final TableItem tableItem_5){
+		
+		
+		Button btAndy = new Button(table,SWT.PUSH);
+		btAndy.setText("Bezhalen");
+		btAndy.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Andy.bezhalen();
+				displayTableItem(tableItem_5, "offene Zahlungen");
+				setValuesInStatstxt();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+				
+			}
+		});
+		TableEditor editor = new TableEditor(table);
+		editor.grabHorizontal  = true;
+		editor.grabVertical = true;
+		editor.setEditor(btAndy, tableItem, 1);
+		
+		Button btClaudi = new Button(table,SWT.PUSH);
+		btClaudi.setText("Bezhalen");
+		btClaudi.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Claudi.bezhalen();
+				displayTableItem(tableItem_5, "offene Zahlungen");	
+				setValuesInStatstxt();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+				
+			}
+		});
+		TableEditor editor2 = new TableEditor(table);
+		editor2.grabHorizontal  = true;
+		editor2.grabVertical = true;
+		editor2.setEditor(btClaudi, tableItem, 2);
+		
+		Button btFlo = new Button(table,SWT.PUSH);
+		btFlo.setText("Bezhalen");
+		btFlo.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Flo.bezhalen();	
+				displayTableItem(tableItem_5, "offene Zahlungen");
+				setValuesInStatstxt();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+				
+			}
+		});
+		TableEditor editor3 = new TableEditor(table);
+		editor3.grabHorizontal  = true;
+		editor3.grabVertical = true;
+		editor3.setEditor(btFlo, tableItem, 3);
+		Button btFelix = new Button(table,SWT.PUSH);
+		btFelix.setText("Bezhalen");
+		btFelix.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Felix.bezhalen();
+				displayTableItem(tableItem_5, "offene Zahlungen");
+				setValuesInStatstxt();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+				
+			}
+		});
+		TableEditor editor4 = new TableEditor(table);
+		editor4.grabHorizontal  = true;
+		editor4.grabVertical = true;
+		editor4.setEditor(btFelix, tableItem, 4);
+		
 	}
 
 }
