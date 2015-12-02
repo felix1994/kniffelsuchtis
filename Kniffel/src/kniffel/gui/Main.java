@@ -26,6 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -132,6 +133,8 @@ public class Main {
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		Font font1 = new Font(Display.getCurrent(), "Arial", 11, SWT.BOLD);
+		table.setFont(font1);
 		
 
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE,0);
@@ -464,6 +467,7 @@ public class Main {
 		
 		Button btAndy = new Button(table,SWT.PUSH);
 		btAndy.setText("Bezahlen");
+		btAndy.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btAndy.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -487,6 +491,7 @@ public class Main {
 		
 		Button btClaudi = new Button(table,SWT.PUSH);
 		btClaudi.setText("Bezahlen");
+		btClaudi.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btClaudi.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -510,6 +515,7 @@ public class Main {
 		
 		Button btFlo = new Button(table,SWT.PUSH);
 		btFlo.setText("Bezahlen");
+		btFlo.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btFlo.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -532,6 +538,7 @@ public class Main {
 		editor3.setEditor(btFlo, tableItem, 3);
 		Button btFelix = new Button(table,SWT.PUSH);
 		btFelix.setText("Bezahlen");
+		btFelix.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btFelix.addSelectionListener(new SelectionListener() {
 			
 			@Override
