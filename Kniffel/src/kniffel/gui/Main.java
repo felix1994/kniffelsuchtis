@@ -8,9 +8,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import kniffel.helpers.Player;
 import kniffel.wizards.MainWizard;
@@ -217,6 +220,10 @@ public class Main {
 			public void widgetSelected(SelectionEvent arg0) {
 				try {
 					doExport(table);
+					MessageBox box = new MessageBox(shell, SWT.OK);
+					box.setText("My info");
+					box.setMessage("Exportieren erfolgreich !");
+					box.open();
 				} catch (DocumentException e) {
 					MessageBox box = new MessageBox(shell, SWT.OK);
 					box.setText("My info");
@@ -414,18 +421,18 @@ public class Main {
 
 	public void doExport(Table table) throws DocumentException, IOException {
 		Calendar cal = Calendar.getInstance();
-		String date = cal.getTime().toString();
-		String formattedDate = date.substring(4, 10);
+		Date date = cal.getTime();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		//final String PDF = "/Users/FFRITZSC/Kniffelstand"
 				//+ formattedDate.trim() + ".pdf";
 		final String PDF2 = System.getProperty("user.dir") + "/Kniffelstand_"
-				+ formattedDate + ".pdf";
+				+ sdf.format(date).toString() + ".pdf";
 		Document document = new Document();
 		PdfWriter writer = PdfWriter.getInstance(document,
 				new FileOutputStream(PDF2));
 		document.open();
-		document.addTitle("Kniffel Zwischenstand am: " + date);
-		document.add(new Phrase("Kniffel Zwischenstand am: " + date));
+		document.addTitle("Kniffel Zwischenstand am: " + sdf.format(date).toString());
+		document.add(new Phrase("Kniffel Zwischenstand am: " + sdf.format(date).toString()));
 		PdfPTable pdfTable = new PdfPTable(5);
 		PdfPCell names = new PdfPCell();
 		names.setColspan(5);
@@ -437,7 +444,7 @@ public class Main {
 			names = new PdfPCell(new Phrase(p.getName()));
 			pdfTable.addCell(names);
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 7; i++) {
 			PdfPCell cell = new PdfPCell();
 			for (int j = 0; j < 5; j++) {
 				cell = new PdfPCell(new Phrase(table.getItem(i).getText(j)));
@@ -456,14 +463,15 @@ public class Main {
 		
 		
 		Button btAndy = new Button(table,SWT.PUSH);
-		btAndy.setText("Bezhalen");
+		btAndy.setText("Bezahlen");
 		btAndy.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Andy.bezhalen();
+				String zuZahlen = Double.toString(Andy.bezhalen());
 				displayTableItem(tableItem_5, "offene Zahlungen");
 				setValuesInStatstxt();
+				showMessage(zuZahlen);
 			}
 			
 			@Override
@@ -478,14 +486,15 @@ public class Main {
 		editor.setEditor(btAndy, tableItem, 1);
 		
 		Button btClaudi = new Button(table,SWT.PUSH);
-		btClaudi.setText("Bezhalen");
+		btClaudi.setText("Bezahlen");
 		btClaudi.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Claudi.bezhalen();
+				String zuZahlen = Double.toString(Claudi.bezhalen());
 				displayTableItem(tableItem_5, "offene Zahlungen");	
 				setValuesInStatstxt();
+				showMessage(zuZahlen);
 			}
 			
 			@Override
@@ -500,14 +509,15 @@ public class Main {
 		editor2.setEditor(btClaudi, tableItem, 2);
 		
 		Button btFlo = new Button(table,SWT.PUSH);
-		btFlo.setText("Bezhalen");
+		btFlo.setText("Bezahlen");
 		btFlo.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Flo.bezhalen();	
+				String zuZahlen = Double.toString(Flo.bezhalen());
 				displayTableItem(tableItem_5, "offene Zahlungen");
 				setValuesInStatstxt();
+				showMessage(zuZahlen);
 			}
 			
 			@Override
@@ -521,14 +531,15 @@ public class Main {
 		editor3.grabVertical = true;
 		editor3.setEditor(btFlo, tableItem, 3);
 		Button btFelix = new Button(table,SWT.PUSH);
-		btFelix.setText("Bezhalen");
+		btFelix.setText("Bezahlen");
 		btFelix.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Felix.bezhalen();
+				String zuZahlen = Double.toString(Felix.bezhalen());
 				displayTableItem(tableItem_5, "offene Zahlungen");
 				setValuesInStatstxt();
+				showMessage(zuZahlen);
 			}
 			
 			@Override
@@ -543,5 +554,33 @@ public class Main {
 		editor4.setEditor(btFelix, tableItem, 4);
 		
 	}
-
+	
+	public void showMessage(String value){
+		MessageBox box = new MessageBox(shell, SWT.OK);
+		box.setText("Zahltag");
+		if(Double.parseDouble(value) == 0.0){
+			box.setMessage("Gratuliere, du musst nichts zahlen, alles paletti =) ");
+		}else
+			if(Double.parseDouble(value) <= 1){
+				box.setMessage("Zu zahlen: " + value + "Ä \nDa hast du nochmal Gl¸ck gehabt");
+		}else
+			box.setMessage(value + "Ä \n " + getRandomMessage());
+		box.open();	
+	}
+	
+	public String getRandomMessage(){
+		Random random = new Random();
+		int x = random.nextInt(100);
+		if(x<100 && x>80)
+			return "Merci beaucoup";
+		if(x<81 && x>60)
+			return "da macht Kniffeln Spaﬂ, nichtwahr ?";
+		if(x<61 && x>40)
+			return "und die Kasse klingelt";
+		if(x<41 && x>20)
+			return "Immer rein in die Kasse";
+		if(x<21 && x>0)
+			return "Zaaaahltag";
+		return "";
+	}
 }

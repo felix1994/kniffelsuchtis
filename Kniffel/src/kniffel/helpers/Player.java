@@ -92,8 +92,10 @@ public class Player {
 		this.offeneZahlungen += offeneZahlungen;
 	}
 	
-	public void bezhalen(){
+	public double bezhalen(){
+		double value = this.offeneZahlungen;
 		this.offeneZahlungen = 0;
+		return value /100;
 	}
 	
 	public void setOffeneZahlungen(String value){
