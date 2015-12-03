@@ -27,12 +27,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -97,7 +95,7 @@ public class Main {
 		shell = new Shell();
 		//Image img = new Image(shell.getDisplay(), "becher.jpg");
 		//shell.setBackgroundImage(img);
-		shell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY));
+		shell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
 		shell.setSize(750, 400);
 		shell.setText("Kniffelsuchtis");
 		shell.setLayout(new GridLayout(3, false));
@@ -621,7 +619,7 @@ public class Main {
 			return "Nächstes Mal einfach BEHARRLICHER spielen";
 		if(x<11 && x>0)
 			return "Zaaaahltag";
-		return "Zaaaahltag";
+		return "Nächstes Mal einfach BEHARRLICHER spielen";
 	}
 	
 }
