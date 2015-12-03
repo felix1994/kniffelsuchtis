@@ -26,7 +26,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -41,7 +40,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;
@@ -97,8 +95,9 @@ public class Main {
 	 */
 	protected void createContents() throws IOException {
 		shell = new Shell();
-		Image img = new Image(shell.getDisplay(), "becher.jpg");
-		shell.setBackgroundImage(img);
+		//Image img = new Image(shell.getDisplay(), "becher.jpg");
+		//shell.setBackgroundImage(img);
+		shell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY));
 		shell.setSize(750, 400);
 		shell.setText("Kniffelsuchtis");
 		shell.setLayout(new GridLayout(3, false));
@@ -122,15 +121,13 @@ public class Main {
 
 		Menu menu_1 = new Menu(mntmMenu);
 		mntmMenu.setMenu(menu_1);
-		new Label(shell, SWT.NONE);
-		new Label(shell, SWT.NONE);
-		new Label(shell, SWT.NONE);
 
-		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+
+
+		table = new Table(shell, SWT.BORDER | SWT.NO_FOCUS);
 		table.setTouchEnabled(true);
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 1);
-		gd_table.widthHint = 650;
-		gd_table.heightHint = 200;
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1);
+		//gd_table.heightHint = 200;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -266,7 +263,6 @@ public class Main {
 					
 					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
-						// TODO Auto-generated method stub
 						
 					}
 				});
@@ -436,11 +432,11 @@ public class Main {
 				text[x] = Integer.toString(player.getGespielteSpiele());
 				break;
 			case "offene Zahlungen":
-				text[x] = Double.toString(player.getOffeneZahlungen() / 100.0 );
+				text[x] = Double.toString(player.getOffeneZahlungen() / 100.0 )+ " €";
 				break;
 			}
 			if(tableItem.getText().equals("offene Zahlungen")){
-				if(text[x].equals("0.0")){
+				if(text[x].equals("0.0 €")){
 					Color green = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
 					tableItem.setBackground(x,green);
 				}else{
@@ -463,6 +459,7 @@ public class Main {
 		final String PDF2 = System.getProperty("user.dir") + "/Kniffelstand_"
 				+ sdf.format(date).toString() + ".pdf";
 		Document document = new Document();
+		@SuppressWarnings("unused")
 		PdfWriter writer = PdfWriter.getInstance(document,
 				new FileOutputStream(PDF2));
 		document.open();
@@ -626,4 +623,5 @@ public class Main {
 			return "Zaaaahltag";
 		return "Zaaaahltag";
 	}
+	
 }
