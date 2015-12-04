@@ -78,7 +78,7 @@ public class Main {
 	public void open() throws IOException {
 		Display display = Display.getDefault();
 		createContents();
-		shell.setImage(new Image(display, "becher2.png"));
+		shell.setImage(new Image(display, "würfel.png"));
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
