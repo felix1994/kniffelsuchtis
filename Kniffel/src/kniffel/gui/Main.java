@@ -27,6 +27,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -77,6 +78,7 @@ public class Main {
 	public void open() throws IOException {
 		Display display = Display.getDefault();
 		createContents();
+		shell.setImage(new Image(display, "becher2.png"));
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
