@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import kniffel.helpers.Spielergebnis;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -25,6 +27,7 @@ public class FirstPage extends WizardPage {
 	private Combo combo;
 
 	private Map<String, String> values = new HashMap<String, String>();
+	private Map<String, Spielergebnis> spielstand = new HashMap<String, Spielergebnis>();
 	private int anzahlSpieler;
 
 	private Set<Control> controls = new HashSet<Control>();
@@ -46,8 +49,7 @@ public class FirstPage extends WizardPage {
 		setTitle("Neues Spiel hinzufügen");
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout gd = new GridLayout(8, true);
-		GridData gdd = new GridData(SWT.CENTER, SWT.CENTER,
-				true, false);
+		GridData gdd = new GridData(SWT.CENTER, SWT.CENTER, true, false);
 		gdd.horizontalSpan = 8;
 		composite.setLayout(gd);
 		Label label = new Label(composite, SWT.NONE);
@@ -79,7 +81,7 @@ public class FirstPage extends WizardPage {
 
 			}
 		});
-		
+
 		combo.setLayoutData(gdd);
 		setPageComplete(false);
 		setControl(composite);
@@ -87,8 +89,8 @@ public class FirstPage extends WizardPage {
 	}
 
 	public void displayNewFields(String value, Composite parent) {
-		GridData gd_allg = new GridData(SWT.CENTER, SWT.CENTER,
-				true, false, 1, 1);
+		GridData gd_allg = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1,
+				1);
 		int players = Integer.parseInt(value);
 		clearControls();
 		switch (players) {
@@ -102,7 +104,7 @@ public class FirstPage extends WizardPage {
 			Label lblSpieler_1 = new Label(composite, SWT.NONE);
 			lblSpieler_1.setAlignment(SWT.CENTER);
 			lblSpieler_1.setText("Spieler 2");
-			
+
 			lblSpieler.setLayoutData(gd_allg);
 			lblSpieler_1.setLayoutData(gd_allg);
 
@@ -112,7 +114,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo.getText(), "0");
+					if (spielstand.containsKey("0"))
+						spielstand.get("0").setName(combo.getText());
+					else
+						spielstand.put("0",
+								new Spielergebnis("0", combo.getText()));
 
 				}
 			});
@@ -123,7 +129,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo_1.getText(), "1");
+					if (spielstand.containsKey("1"))
+						spielstand.get("1").setName(combo_1.getText());
+					else
+						spielstand.put("1",
+								new Spielergebnis("1", combo_1.getText()));
 
 				}
 			});
@@ -139,7 +149,7 @@ public class FirstPage extends WizardPage {
 			final Text text_1 = new Text(composite, SWT.BORDER);
 			text_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
 					false, 1, 1));
-			
+
 			text.setLayoutData(gd_allg);
 			text_1.setLayoutData(gd_allg);
 			text_1.setMessage("Punktzahl");
@@ -172,14 +182,18 @@ public class FirstPage extends WizardPage {
 			lblSpieler4.setLayoutData(gd_allg);
 			lblSpieler_3.setLayoutData(gd_allg);
 			lblSpieler_2.setLayoutData(gd_allg);
-			
+
 			final Combo combo4 = new Combo(composite, SWT.NONE);
 			addNames(combo4);
 			combo4.addModifyListener(new ModifyListener() {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo4.getText(), "0");
+					if (spielstand.containsKey("0"))
+						spielstand.get("0").setName(combo4.getText());
+					else
+						spielstand.put("0",
+								new Spielergebnis("0", combo4.getText()));
 
 				}
 			});
@@ -190,7 +204,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo3.getText(), "1");
+					if (spielstand.containsKey("1"))
+						spielstand.get("1").setName(combo3.getText());
+					else
+						spielstand.put("1",
+								new Spielergebnis("1", combo3.getText()));
 
 				}
 			});
@@ -203,15 +221,19 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo2.getText(), "2");
+					if (spielstand.containsKey("2"))
+						spielstand.get("2").setName(combo2.getText());
+					else
+						spielstand.put("2",
+								new Spielergebnis("2", combo2.getText()));
 
 				}
 			});
-					
+
 			combo2.setLayoutData(gd_allg);
 			combo3.setLayoutData(gd_allg);
 			combo4.setLayoutData(gd_allg);
-			
+
 			final Text text2 = new Text(composite, SWT.BORDER);
 			text2.setMessage("Punktzahl");
 			text2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false,
@@ -232,7 +254,7 @@ public class FirstPage extends WizardPage {
 			addComboVerfList(combo2);
 			addComboVerfList(combo3);
 			addComboVerfList(combo4);
-			
+
 			text2.setLayoutData(gd_allg);
 			text3.setLayoutData(gd_allg);
 			text4.setLayoutData(gd_allg);
@@ -263,7 +285,7 @@ public class FirstPage extends WizardPage {
 
 			Label lblSpieler8 = new Label(composite, SWT.NONE);
 			lblSpieler8.setText("Spieler 4");
-			
+
 			lblSpieler5.setLayoutData(gd_allg);
 			lblSpieler6.setLayoutData(gd_allg);
 			lblSpieler7.setLayoutData(gd_allg);
@@ -275,7 +297,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo6.getText(), "0");
+					if (spielstand.containsKey("0"))
+						spielstand.get("0").setName(combo6.getText());
+					else
+						spielstand.put("0",
+								new Spielergebnis("0", combo6.getText()));
 
 				}
 			});
@@ -286,7 +312,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo5.getText(), "1");
+					if (spielstand.containsKey("1"))
+						spielstand.get("1").setName(combo5.getText());
+					else
+						spielstand.put("1",
+								new Spielergebnis("1", combo5.getText()));
 
 				}
 			});
@@ -299,7 +329,11 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo7.getText(), "2");
+					if (spielstand.containsKey("2"))
+						spielstand.get("2").setName(combo7.getText());
+					else
+						spielstand.put("2",
+								new Spielergebnis("2", combo7.getText()));
 
 				}
 			});
@@ -312,11 +346,15 @@ public class FirstPage extends WizardPage {
 
 				@Override
 				public void modifyText(ModifyEvent arg0) {
-					values.put(combo8.getText(), "3");
+					if (spielstand.containsKey("3"))
+						spielstand.get("3").setName(combo8.getText());
+					else
+						spielstand.put("3",
+								new Spielergebnis("3", combo8.getText()));
 
 				}
 			});
-			
+
 			combo5.setLayoutData(gd_allg);
 			combo6.setLayoutData(gd_allg);
 			combo7.setLayoutData(gd_allg);
@@ -344,12 +382,12 @@ public class FirstPage extends WizardPage {
 			text8.setMessage("Punktzahl");
 			text8.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
 					1, 1));
-			
+
 			text5.setLayoutData(gd_allg);
 			text6.setLayoutData(gd_allg);
 			text7.setLayoutData(gd_allg);
 			text8.setLayoutData(gd_allg);
-			
+
 			addTextModAndVerfList(text8, "3");
 			addComboVerfList(combo5);
 			addComboVerfList(combo6);
@@ -382,11 +420,11 @@ public class FirstPage extends WizardPage {
 			public void modifyText(ModifyEvent arg0) {
 				if (text.getText().length() != 3)
 					return;
-				for (String key : values.keySet()) {
-					if (values.get(key).equals(value)) {
-						values.put(key, text.getText());
-					}
-				}
+				if (spielstand.containsKey(value))
+					spielstand.get(value).setPkt(text.getText());
+				else
+					spielstand.put(value,
+							new Spielergebnis(value, text.getText(), "nix"));
 
 			}
 		});
@@ -422,6 +460,10 @@ public class FirstPage extends WizardPage {
 
 	public void setValues(Map<String, String> values) {
 		this.values = values;
+	}
+
+	public Map<String, Spielergebnis> getSpielstand() {
+		return spielstand;
 	}
 
 	public void addComboVerfList(Combo c) {

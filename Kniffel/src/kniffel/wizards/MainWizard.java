@@ -3,9 +3,9 @@ package kniffel.wizards;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import kniffel.helpers.Player;
+import kniffel.helpers.Spielergebnis;
 
 import org.eclipse.jface.wizard.Wizard;
 
@@ -27,30 +27,28 @@ public class MainWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		if (canFinish()) {
-			Map<String, String> values = first.getValues();
-			for (Player player : players) {
-				if (values.containsKey(player.getName())) {
-					player.addGespieltesSpiel();
-					player.addToGesamtpunktzahl(values.get(player.getName()));
-				}
-			}
+			Map<String, Spielergebnis> values = first.getSpielstand();
 			int anzahlSpieler = values.keySet().size();
+			int[] ergebnisse = new int[anzahlSpieler];
+			String[] names = new String[anzahlSpieler];
+
+			for (String key : values.keySet()) {
+				Spielergebnis s = values.get(key);
+				getPlayer(s.getName()).addGespieltesSpiel();
+				getPlayer(s.getName()).addToGesamtpunktzahl(s.getPkt());
+
+				ergebnisse[Integer.parseInt(key)] = Integer
+						.parseInt(s.getPkt());
+			}
 
 			// Hilfsfelder befüllen
 			// ------------------------------------------------
-			int[] ergebnisse = new int[anzahlSpieler];
-			String[] names = new String[anzahlSpieler];
-			int x = 0;
-			for (Entry<String, String> entry : values.entrySet()) {
-				ergebnisse[x] = Integer.parseInt(entry.getValue());
-				x++;
-			}
 			Arrays.sort(ergebnisse);
-			for (String name : values.keySet()) { // BEI GLEICHSTAND IMMER DER
-													// // GLEICHE NAME IM ARRAY
-				for (int y = 0; y < anzahlSpieler; y++) {
-					if (ergebnisse[y] == Integer.parseInt(values.get(name))) {
-						names[y] = name;
+			for (int x = 0; x < ergebnisse.length; x++) {
+				for (String key : values.keySet()) {
+					Spielergebnis s = values.get(key);
+					if (Integer.parseInt(s.getPkt()) == ergebnisse[x]) {
+						names[x] = s.getName();
 					}
 				}
 			}

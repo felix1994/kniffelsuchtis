@@ -27,11 +27,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;
@@ -78,7 +79,7 @@ public class Main {
 	public void open() throws IOException {
 		Display display = Display.getDefault();
 		createContents();
-		shell.setImage(new Image(display, "würfel.png"));
+		// shell.setImage(new Image(display, "würfel.png"));
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -95,8 +96,8 @@ public class Main {
 	 */
 	protected void createContents() throws IOException {
 		shell = new Shell();
-		//Image img = new Image(shell.getDisplay(), "becher.jpg");
-		//shell.setBackgroundImage(img);
+		// Image img = new Image(shell.getDisplay(), "becher.jpg");
+		// shell.setBackgroundImage(img);
 		shell.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
 		shell.setSize(750, 400);
 		shell.setText("Kniffelsuchtis");
@@ -122,37 +123,34 @@ public class Main {
 		Menu menu_1 = new Menu(mntmMenu);
 		mntmMenu.setMenu(menu_1);
 
-
-
 		table = new Table(shell, SWT.BORDER | SWT.NO_FOCUS);
 		table.setTouchEnabled(true);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, false, 3, 1);
-		//gd_table.heightHint = 200;
+		// gd_table.heightHint = 200;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		Font font1 = new Font(Display.getCurrent(), "Arial", 11, SWT.BOLD);
 		table.setFont(font1);
-		
 
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE,0);
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE, 0);
 		tblclmnNewColumn.setWidth(119);
 		tblclmnNewColumn.setText("...");
 		tblclmnNewColumn.setWidth(270);
 
-		TableColumn tblclmnAndy = new TableColumn(table, SWT.CENTER,1);
+		TableColumn tblclmnAndy = new TableColumn(table, SWT.CENTER, 1);
 		tblclmnAndy.setWidth(100);
 		tblclmnAndy.setText("Andy");
 
-		TableColumn tblclmnClaudi = new TableColumn(table, SWT.CENTER,2);
+		TableColumn tblclmnClaudi = new TableColumn(table, SWT.CENTER, 2);
 		tblclmnClaudi.setWidth(100);
 		tblclmnClaudi.setText("Claudi");
 
-		TableColumn tblclmnFlo = new TableColumn(table, SWT.CENTER,3);
+		TableColumn tblclmnFlo = new TableColumn(table, SWT.CENTER, 3);
 		tblclmnFlo.setWidth(100);
 		tblclmnFlo.setText("Flo");
 
-		TableColumn tblclmnFelix = new TableColumn(table, SWT.CENTER,4);
+		TableColumn tblclmnFelix = new TableColumn(table, SWT.CENTER, 4);
 		tblclmnFelix.setWidth(100);
 		tblclmnFelix.setText("Felix");
 
@@ -167,17 +165,16 @@ public class Main {
 
 		final TableItem tableItem_4 = new TableItem(table, SWT.NONE);
 		tableItem_4.setText("#gespielte Spiele");
-		
+
 		final TableItem tableItem_3 = new TableItem(table, SWT.NONE);
 		tableItem_3.setText("");
-		
+
 		final TableItem tableItem_5 = new TableItem(table, SWT.NONE);
 		tableItem_5.setText("offene Zahlungen");
-		
+
 		final TableItem tableItem_6 = new TableItem(table, SWT.NONE);
 		addBezahlenButton(tableItem_6, tableItem_5);
-		
-		
+
 		MenuItem mntmNeu = new MenuItem(menu_1, SWT.NONE);
 		mntmNeu.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -241,38 +238,50 @@ public class Main {
 			}
 		});
 		mntmPdfExportieren.setText("PDF exportieren");
-		
+
 		MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
 		regeln.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				final Browser browser = new Browser(shell, SWT.NONE);
-				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+						true));
 				browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
-				final Button button = new Button(shell,SWT.PUSH);
+				final Button button = new Button(shell, SWT.PUSH);
 				button.setText("Schließen");
 				button.addSelectionListener(new SelectionListener() {
-					
+
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						browser.close();
 						button.dispose();
 						shell.layout();
-						
+
 					}
-					
+
 					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
-						
+
 					}
 				});
-				
+
 				shell.layout();
 			}
 		});
 		regeln.setText("Kniffel Regeln");
+		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4,
+				tableItem_5);
 
-		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4, tableItem_5);
+		Label sparschwein = new Label(shell, SWT.CENTER);
+		sparschwein
+				.setFont(new Font(shell.getDisplay(), "Arial", 11, SWT.BOLD));
+		sparschwein.setText("Gesamt in der Kasse: "
+				+ Double.toString((Andy.getGesamteZahlungen()
+						+ Claudi.getGesamteZahlungen()
+						+ Felix.getGesamteZahlungen() + Flo
+						.getGesamteZahlungen()) / 100));
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
+		sparschwein.setLayoutData(gd);
 
 	}
 
@@ -327,7 +336,8 @@ public class Main {
 	}
 
 	private void fillStatistic(TableItem tableItem, TableItem tableItem_1,
-			TableItem tableItem_2, TableItem tableItem_4,TableItem tableItem_5) throws IOException {
+			TableItem tableItem_2, TableItem tableItem_4, TableItem tableItem_5)
+			throws IOException {
 		try {
 			FileReader fr = new FileReader("stats.txt");
 			BufferedReader br = new BufferedReader(fr);
@@ -432,30 +442,33 @@ public class Main {
 				text[x] = Integer.toString(player.getGespielteSpiele());
 				break;
 			case "offene Zahlungen":
-				text[x] = Double.toString(player.getOffeneZahlungen() / 100.0 )+ " €";
+				text[x] = Double.toString(player.getOffeneZahlungen() / 100.0)
+						+ " €";
 				break;
 			}
-			if(tableItem.getText().equals("offene Zahlungen")){
-				if(text[x].equals("0.0 €")){
-					Color green = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
-					tableItem.setBackground(x,green);
-				}else{
-					Color red = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-					tableItem.setBackground(x,red);
+			if (tableItem.getText().equals("offene Zahlungen")) {
+				if (text[x].equals("0.0 €")) {
+					Color green = Display.getCurrent().getSystemColor(
+							SWT.COLOR_GREEN);
+					tableItem.setBackground(x, green);
+				} else {
+					Color red = Display.getCurrent().getSystemColor(
+							SWT.COLOR_RED);
+					tableItem.setBackground(x, red);
 				}
 			}
 
 		}
 		tableItem.setText(text);
-		
+
 	}
 
 	public void doExport(Table table) throws DocumentException, IOException {
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		//final String PDF = "/Users/FFRITZSC/Kniffelstand"
-				//+ formattedDate.trim() + ".pdf";
+		// final String PDF = "/Users/FFRITZSC/Kniffelstand"
+		// + formattedDate.trim() + ".pdf";
 		final String PDF2 = System.getProperty("user.dir") + "/Kniffelstand_"
 				+ sdf.format(date).toString() + ".pdf";
 		Document document = new Document();
@@ -463,8 +476,10 @@ public class Main {
 		PdfWriter writer = PdfWriter.getInstance(document,
 				new FileOutputStream(PDF2));
 		document.open();
-		document.addTitle("Kniffel Zwischenstand am: " + sdf.format(date).toString());
-		document.add(new Phrase("Kniffel Zwischenstand am: " + sdf.format(date).toString()));
+		document.addTitle("Kniffel Zwischenstand am: "
+				+ sdf.format(date).toString());
+		document.add(new Phrase("Kniffel Zwischenstand am: "
+				+ sdf.format(date).toString()));
 		PdfPTable pdfTable = new PdfPTable(5);
 		PdfPCell names = new PdfPCell();
 		names.setColspan(5);
@@ -490,15 +505,15 @@ public class Main {
 		document.close();
 
 	}
-	
-	public void addBezahlenButton(final TableItem tableItem , final TableItem tableItem_5){
-		
-		
-		Button btAndy = new Button(table,SWT.PUSH);
+
+	public void addBezahlenButton(final TableItem tableItem,
+			final TableItem tableItem_5) {
+
+		Button btAndy = new Button(table, SWT.PUSH);
 		btAndy.setText("Bezahlen");
 		btAndy.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btAndy.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String zuZahlen = Double.toString(Andy.bezhalen());
@@ -506,47 +521,45 @@ public class Main {
 				setValuesInStatstxt();
 				showMessage(zuZahlen);
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				
-				
+
 			}
 		});
 		TableEditor editor = new TableEditor(table);
-		editor.grabHorizontal  = true;
+		editor.grabHorizontal = true;
 		editor.grabVertical = true;
 		editor.setEditor(btAndy, tableItem, 1);
-		
-		Button btClaudi = new Button(table,SWT.PUSH);
+
+		Button btClaudi = new Button(table, SWT.PUSH);
 		btClaudi.setText("Bezahlen");
 		btClaudi.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btClaudi.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String zuZahlen = Double.toString(Claudi.bezhalen());
-				displayTableItem(tableItem_5, "offene Zahlungen");	
+				displayTableItem(tableItem_5, "offene Zahlungen");
 				setValuesInStatstxt();
 				showMessage(zuZahlen);
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				
-				
+
 			}
 		});
 		TableEditor editor2 = new TableEditor(table);
-		editor2.grabHorizontal  = true;
+		editor2.grabHorizontal = true;
 		editor2.grabVertical = true;
 		editor2.setEditor(btClaudi, tableItem, 2);
-		
-		Button btFlo = new Button(table,SWT.PUSH);
+
+		Button btFlo = new Button(table, SWT.PUSH);
 		btFlo.setText("Bezahlen");
 		btFlo.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btFlo.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String zuZahlen = Double.toString(Flo.bezhalen());
@@ -554,22 +567,21 @@ public class Main {
 				setValuesInStatstxt();
 				showMessage(zuZahlen);
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				
-				
+
 			}
 		});
 		TableEditor editor3 = new TableEditor(table);
-		editor3.grabHorizontal  = true;
+		editor3.grabHorizontal = true;
 		editor3.grabVertical = true;
 		editor3.setEditor(btFlo, tableItem, 3);
-		Button btFelix = new Button(table,SWT.PUSH);
+		Button btFelix = new Button(table, SWT.PUSH);
 		btFelix.setText("Bezahlen");
 		btFelix.setFont(new Font(Display.getCurrent(), "Tahoma", 11, SWT.NONE));
 		btFelix.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String zuZahlen = Double.toString(Felix.bezhalen());
@@ -577,51 +589,50 @@ public class Main {
 				setValuesInStatstxt();
 				showMessage(zuZahlen);
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				
-				
+
 			}
 		});
 		TableEditor editor4 = new TableEditor(table);
-		editor4.grabHorizontal  = true;
+		editor4.grabHorizontal = true;
 		editor4.grabVertical = true;
 		editor4.setEditor(btFelix, tableItem, 4);
-		
+
 	}
-	
-	public void showMessage(String value){
+
+	public void showMessage(String value) {
 		MessageBox box = new MessageBox(shell, SWT.OK);
 		box.setText("Zahltag");
-		if(Double.parseDouble(value) == 0.0){
+		if (Double.parseDouble(value) == 0.0) {
 			box.setMessage("Gratuliere, du musst nichts zahlen, alles paletti =) ");
-		}else
-			if(Double.parseDouble(value) <= 1){
-				box.setMessage("Zu zahlen: " + value + "€ \nDa hast du nochmal Glück gehabt");
-		}else
+		} else if (Double.parseDouble(value) <= 1) {
+			box.setMessage("Zu zahlen: " + value
+					+ "€ \nDa hast du nochmal Glück gehabt");
+		} else
 			box.setMessage(value + "€ \n " + getRandomMessage());
-		box.open();	
+		box.open();
 	}
-	
-	public String getRandomMessage(){
+
+	public String getRandomMessage() {
 		Random random = new Random();
 		int x = random.nextInt(100);
-		if(x<100 && x>80)
+		if (x < 100 && x > 80)
 			return "Merci beaucoup";
-		if(x<81 && x>60)
+		if (x < 81 && x > 60)
 			return "da macht Kniffeln Spaß, nichtwahr ?";
-		if(x<61 && x>50)
+		if (x < 61 && x > 50)
 			return "und die Kasse klingelt";
-		if(x<51 && x>40)
+		if (x < 51 && x > 40)
 			return "Money Money Money";
-		if(x<41 && x>30)
+		if (x < 41 && x > 30)
 			return "Immer rein in die Kasse";
-		if(x<31 && x>10)
+		if (x < 31 && x > 10)
 			return "Nächstes Mal einfach BEHARRLICHER spielen";
-		if(x<11 && x>0)
+		if (x < 11 && x > 0)
 			return "Zaaaahltag";
 		return "Nächstes Mal einfach BEHARRLICHER spielen";
 	}
-	
+
 }
