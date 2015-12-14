@@ -56,6 +56,7 @@ public class Main {
 	private Player Claudi;
 	private Player Flo;
 	private Player Felix;
+	private Label gesamt;
 
 	/**
 	 * Launch the application.
@@ -196,6 +197,7 @@ public class Main {
 								"Durchschnittl. Punktzahl pro Spiel");
 						displayTableItem(tableItem_4, "Gespielte Spiele");
 						displayTableItem(tableItem_5, "offene Zahlungen");
+						computeGesamt();
 						MessageBox box2 = new MessageBox(shell, SWT.OK);
 						box2.setText("Info");
 						box2.setMessage("Ergebnisse erfolgreich gespeichert");
@@ -206,6 +208,7 @@ public class Main {
 						box.setMessage("Ergebnisse nicht gespeichert !");
 						box.open();
 					}
+
 				}
 
 			}
@@ -272,16 +275,15 @@ public class Main {
 		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4,
 				tableItem_5);
 
-		Label sparschwein = new Label(shell, SWT.CENTER);
-		sparschwein
-				.setFont(new Font(shell.getDisplay(), "Arial", 11, SWT.BOLD));
-		sparschwein.setText("Gesamt in der Kasse: "
+		gesamt = new Label(shell, SWT.CENTER);
+		gesamt.setFont(new Font(shell.getDisplay(), "Arial", 11, SWT.BOLD));
+		gesamt.setText("Gesamt in der Kasse: "
 				+ Double.toString((Andy.getGesamteZahlungen()
 						+ Claudi.getGesamteZahlungen()
 						+ Felix.getGesamteZahlungen() + Flo
 						.getGesamteZahlungen()) / 100));
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		sparschwein.setLayoutData(gd);
+		gesamt.setLayoutData(gd);
 
 	}
 
@@ -635,4 +637,12 @@ public class Main {
 		return "Nächstes Mal einfach BEHARRLICHER spielen";
 	}
 
+	public void computeGesamt() {
+		gesamt.setText("Gesamt in der Kasse: "
+				+ Double.toString((Andy.getGesamteZahlungen()
+						+ Claudi.getGesamteZahlungen()
+						+ Felix.getGesamteZahlungen() + Flo
+						.getGesamteZahlungen()) / 100));
+		shell.layout();
+	}
 }
