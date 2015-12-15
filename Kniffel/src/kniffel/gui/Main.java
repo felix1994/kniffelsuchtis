@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -32,8 +33,10 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaSizeName;
 
 import kniffel.helpers.Player;
+import kniffel.wizards.DruckWizard;
 import kniffel.wizards.MainWizard;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -295,21 +298,8 @@ public class Main {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-						try {
-							printVorlage();
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (MalformedURLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (PrintException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (URISyntaxException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				printVorlage();
+						
 			}
 			
 			@Override
@@ -693,12 +683,12 @@ public class Main {
 		shell.layout();
 	}
 	
-	public void printVorlage() throws FileNotFoundException, PrintException, MalformedURLException, URISyntaxException{
-		PrintService printer = PrintServiceLookup.lookupDefaultPrintService();
-		System.out.println(printer.getName());
-			URL url = new URL("http://gws2.de/px/prev_kniffel1.jpg");
-			File file = new File(url.toURI());
-			
+	public void printVorlage() {
+		WizardDialog dialog = new WizardDialog(shell, new DruckWizard());
+		dialog.open();
+		/*
+			URI uri = new URI("http://gws2.de/px/prev_kniffel1.jpg");
+			File file = new File(uri);
 			DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
 			PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 			aset.add(MediaSizeName.ISO_A4);
@@ -706,6 +696,6 @@ public class Main {
 			DocPrintJob job = printer.createPrintJob();
 			Doc doc = new SimpleDoc(fis, flavor, null);
 			job.print(doc, aset);
-			
+			*/
 	}
 }
