@@ -2,18 +2,34 @@ package kniffel.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaSizeName;
 
 import kniffel.helpers.Player;
 import kniffel.wizards.MainWizard;
@@ -272,6 +288,37 @@ public class Main {
 			}
 		});
 		regeln.setText("Kniffel Regeln");
+		
+		MenuItem vorlageDrucken = new MenuItem(menu_1, SWT.NONE);
+		vorlageDrucken.setText("Vorlage drucken");
+		vorlageDrucken.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+						try {
+							printVorlage();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (MalformedURLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (PrintException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (URISyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4,
 				tableItem_5);
 
@@ -644,5 +691,21 @@ public class Main {
 						+ Felix.getGesamteZahlungen() + Flo
 						.getGesamteZahlungen()) / 100));
 		shell.layout();
+	}
+	
+	public void printVorlage() throws FileNotFoundException, PrintException, MalformedURLException, URISyntaxException{
+		PrintService printer = PrintServiceLookup.lookupDefaultPrintService();
+		System.out.println(printer.getName());
+			URL url = new URL("http://gws2.de/px/prev_kniffel1.jpg");
+			File file = new File(url.toURI());
+			
+			DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
+			PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+			aset.add(MediaSizeName.ISO_A4);
+			FileInputStream fis = new FileInputStream(file);
+			DocPrintJob job = printer.createPrintJob();
+			Doc doc = new SimpleDoc(fis, flavor, null);
+			job.print(doc, aset);
+			
 	}
 }
