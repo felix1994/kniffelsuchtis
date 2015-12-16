@@ -32,14 +32,7 @@ public class DruckWizard extends Wizard{
 	@Override
 	public boolean performFinish() {
 		PrintService printer = PrintServiceLookup.lookupDefaultPrintService();
-		URI uri = null;
-		try {
-			uri = new URI("http://gws2.de/px/prev_kniffel1.jpg");
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		File file = new File(uri);
+		File file = new File("P:\\git\\kniffelsuchtis\\Kniffel\\model_kniffel.pdf");
 		DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
 		PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 		aset.add(MediaSizeName.ISO_A4);
@@ -52,6 +45,7 @@ public class DruckWizard extends Wizard{
 		}
 		DocPrintJob job = printer.createPrintJob();
 		Doc doc = new SimpleDoc(fis, flavor, null);
+		System.out.println(druckpage.getAnzahl());
 		try {
 			int x = 0;
 			while(x<druckpage.getAnzahl()){

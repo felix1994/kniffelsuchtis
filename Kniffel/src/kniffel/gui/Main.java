@@ -318,7 +318,7 @@ public class Main {
 				+ Double.toString((Andy.getGesamteZahlungen()
 						+ Claudi.getGesamteZahlungen()
 						+ Felix.getGesamteZahlungen() + Flo
-						.getGesamteZahlungen()) / 100));
+						.getGesamteZahlungen()) / 100) + " €");
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gesamt.setLayoutData(gd);
 
