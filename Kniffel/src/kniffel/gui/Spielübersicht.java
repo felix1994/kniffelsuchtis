@@ -60,16 +60,17 @@ public class Spielübersicht extends Dialog {
 		try {
 			fr = new FileReader(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt");
 			BufferedReader br = new BufferedReader(fr);
+			int index = 0;
 			while(true){
 				String zeile = br.readLine();
 				if(zeile == null)
 					break;
 				if("end".equals(zeile))
 					break;
-				if(zeile.startsWith("Spiel"))
+				if(zeile.startsWith("Spiel") && index != 0)
 					lbl.setText(lbl.getText() + "\n");
-				
 				lbl.setText(lbl.getText() + zeile + "\n");
+				index++;
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
