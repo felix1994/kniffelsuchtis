@@ -101,4 +101,8 @@ public class MainWizard extends Wizard {
 				.getContainer().getCurrentPage().canFlipToNextPage())) ? true
 				: false;
 	}
+	
+	public FirstPage getFirst(){
+		return first;
+	}
 }
