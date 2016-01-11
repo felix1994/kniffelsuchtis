@@ -2,6 +2,7 @@ package kniffel.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -203,9 +204,12 @@ public class Main {
 						displayTableItem(tableItem_4, "Gespielte Spiele");
 						displayTableItem(tableItem_5, "offene Zahlungen");
 						computeGesamt();
+						// --------------------------------------------------
+
+						// --------------------------------------------------
 						PrintWriter pWriter = null;
 						try {
-							BufferedReader in = new BufferedReader(new FileReader("spielübersicht.txt"));
+							BufferedReader in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt"));
 							String old = "";
 							while(true){
 								String zeile = in.readLine();
@@ -213,8 +217,7 @@ public class Main {
 									break;
 								old += zeile + "\n";
 							}
-							pWriter = new PrintWriter(new BufferedWriter(new FileWriter(
-									"spielübersicht.txt")));
+							pWriter = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt")));
 							Map<String, Spielergebnis> spielstand = mainWizard.getFirst().getSpielstand();
 							
 							Calendar cal = Calendar.getInstance();

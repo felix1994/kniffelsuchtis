@@ -58,7 +58,7 @@ public class Spielübersicht extends Dialog {
 		Label lbl = new Label(c2, SWT.NONE);
 		FileReader fr;
 		try {
-			fr = new FileReader("spielübersicht.txt");
+			fr = new FileReader(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt");
 			BufferedReader br = new BufferedReader(fr);
 			while(true){
 				String zeile = br.readLine();
