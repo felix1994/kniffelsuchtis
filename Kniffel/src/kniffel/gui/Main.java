@@ -334,6 +334,26 @@ public class Main {
 			}
 		});;
 		
+		MenuItem dieKasse = new MenuItem(menu_1, SWT.NONE);
+		dieKasse.setText("Die Kasse $$$");
+		dieKasse.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Kassendiagramm diagramm = new Kassendiagramm(shell, SWT.NONE, players);
+				diagramm.open();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});;
+		
+		
+		
 		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4,
 				tableItem_5);
 
