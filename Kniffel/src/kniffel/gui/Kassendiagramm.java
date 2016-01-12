@@ -65,7 +65,7 @@ public class Kassendiagramm extends Dialog {
 	 */
 	private void createContents() {
 		shell = new Shell(getParent(), SWT.DIALOG_TRIM);
-		shell.setSize(450, 300);
+		shell.setSize(500, 500);
 		shell.setText(getText());
 		shell.setLayout(new GridLayout(4, false));
 

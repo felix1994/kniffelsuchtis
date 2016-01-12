@@ -2,7 +2,6 @@ package kniffel.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-
 import kniffel.helpers.Player;
 import kniffel.helpers.Spielergebnis;
 import kniffel.wizards.DruckWizard;
@@ -25,7 +23,6 @@ import kniffel.wizards.MainWizard;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -185,60 +182,67 @@ public class Main {
 		mntmNeu.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				MainWizard mainWizard = new MainWizard(
-						players);
+				MainWizard mainWizard = new MainWizard(players);
 				WizardDialog dialog = new WizardDialog(shell, mainWizard);
 				dialog.open();
 				if (dialog.getReturnCode() == 0) {
-						setValuesInStatstxt();
-						displayTableItem(tableItem, "Gesamtzahlungen");
-						displayTableItem(tableItem_1,
-								"Durchschnittl. Zahlung pro Spiel");
-						displayTableItem(tableItem_2,
-								"Durchschnittl. Punktzahl pro Spiel");
-						displayTableItem(tableItem_4, "Gespielte Spiele");
-						displayTableItem(tableItem_5, "offene Zahlungen");
-						computeGesamt();
+					setValuesInStatstxt();
+					displayTableItem(tableItem, "Gesamtzahlungen");
+					displayTableItem(tableItem_1,
+							"Durchschnittl. Zahlung pro Spiel");
+					displayTableItem(tableItem_2,
+							"Durchschnittl. Punktzahl pro Spiel");
+					displayTableItem(tableItem_4, "Gespielte Spiele");
+					displayTableItem(tableItem_5, "offene Zahlungen");
+					computeGesamt();
 
-						PrintWriter pWriter = null;
-						try {
-							BufferedReader in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt"));
-							String old = "";
-							while(true){
-								String zeile = in.readLine();
-								if(zeile == null || zeile.length() == 0)
-									break;
-								old += zeile + "\n";
-							}
-							pWriter = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt")));
-							Map<String, Spielergebnis> spielstand = mainWizard.getFirst().getSpielstand();
-							
-							Calendar cal = Calendar.getInstance();
-							Date date = cal.getTime();
-							SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-							String newGame = "Spiel am " + sdf.format(date).toString() +"\n";
-							int anzahl = spielstand.keySet().size();
-							int zähler = 1;
-							for(String id : spielstand.keySet()){
-								newGame += spielstand.get(id).getName() + " " + spielstand.get(id).getPkt();
-								if(zähler < anzahl)
-									newGame += "\n";
-								zähler++;
-							}
-							pWriter.println(newGame);
-							pWriter.println(old);
-						} catch (IOException ioe) {
-							ioe.printStackTrace();
-						} finally {
-							if (pWriter != null) {
-								pWriter.flush();
-								pWriter.close();
-							}
+					PrintWriter pWriter = null;
+					try {
+						BufferedReader in = new BufferedReader(new FileReader(
+								System.getProperty("user.dir")
+										+ "\\invisible\\spielübersicht.txt"));
+						String old = "";
+						while (true) {
+							String zeile = in.readLine();
+							if (zeile == null || zeile.length() == 0)
+								break;
+							old += zeile + "\n";
 						}
+						pWriter = new PrintWriter(new BufferedWriter(
+								new FileWriter(System.getProperty("user.dir")
+										+ "\\invisible\\spielübersicht.txt")));
+						Map<String, Spielergebnis> spielstand = mainWizard
+								.getFirst().getSpielstand();
+
+						Calendar cal = Calendar.getInstance();
+						Date date = cal.getTime();
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"dd.MM.yyyy");
+						String newGame = "Spiel am "
+								+ sdf.format(date).toString() + "\n";
+						int anzahl = spielstand.keySet().size();
+						int zähler = 1;
+						for (String id : spielstand.keySet()) {
+							newGame += spielstand.get(id).getName() + " "
+									+ spielstand.get(id).getPkt();
+							if (zähler < anzahl)
+								newGame += "\n";
+							zähler++;
+						}
+						pWriter.println(newGame);
+						pWriter.println(old);
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					} finally {
+						if (pWriter != null) {
+							pWriter.flush();
+							pWriter.close();
+						}
+					}
 				}
 
-			}}
-		);
+			}
+		});
 		mntmNeu.setText("Neu");
 
 		MenuItem mntmPdfExportieren = new MenuItem(menu_1, SWT.NONE);
@@ -268,92 +272,93 @@ public class Main {
 		});
 		mntmPdfExportieren.setText("PDF exportieren");
 
-//		MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
-//		regeln.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent arg0) {
-//				final Browser browser = new Browser(shell, SWT.NONE);
-//				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-//						true));
-//				browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
-//				final Button button = new Button(shell, SWT.PUSH);
-//				button.setText("Schließen");
-//				button.addSelectionListener(new SelectionListener() {
-//
-//					@Override
-//					public void widgetSelected(SelectionEvent arg0) {
-//						browser.close();
-//						button.dispose();
-//						shell.layout();
-//
-//					}
-//
-//					@Override
-//					public void widgetDefaultSelected(SelectionEvent arg0) {
-//
-//					}
-//				});
-//
-//				shell.layout();
-//			}
-//		});
-//		regeln.setText("Kniffel Regeln");
-		
-//		//MenuItem vorlageDrucken = new MenuItem(menu_1, SWT.NONE);
-//		//vorlageDrucken.setText("Vorlage drucken");
-//		//vorlageDrucken.addSelectionListener(new SelectionListener() {
-//			
-//			@Override
-//			public void widgetSelected(SelectionEvent arg0) {
-//				printVorlage();
-//						
-//			}
-//			
-//			@Override
-//			public void widgetDefaultSelected(SelectionEvent arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-		
+		// MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
+		// regeln.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent arg0) {
+		// final Browser browser = new Browser(shell, SWT.NONE);
+		// browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+		// true));
+		// browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
+		// final Button button = new Button(shell, SWT.PUSH);
+		// button.setText("Schließen");
+		// button.addSelectionListener(new SelectionListener() {
+		//
+		// @Override
+		// public void widgetSelected(SelectionEvent arg0) {
+		// browser.close();
+		// button.dispose();
+		// shell.layout();
+		//
+		// }
+		//
+		// @Override
+		// public void widgetDefaultSelected(SelectionEvent arg0) {
+		//
+		// }
+		// });
+		//
+		// shell.layout();
+		// }
+		// });
+		// regeln.setText("Kniffel Regeln");
+
+		// //MenuItem vorlageDrucken = new MenuItem(menu_1, SWT.NONE);
+		// //vorlageDrucken.setText("Vorlage drucken");
+		// //vorlageDrucken.addSelectionListener(new SelectionListener() {
+		//
+		// @Override
+		// public void widgetSelected(SelectionEvent arg0) {
+		// printVorlage();
+		//
+		// }
+		//
+		// @Override
+		// public void widgetDefaultSelected(SelectionEvent arg0) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
+
 		MenuItem alteSpiele = new MenuItem(menu_1, SWT.NONE);
 		alteSpiele.setText("Spielübersicht");
 		alteSpiele.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				Spielübersicht übersicht = new Spielübersicht(shell, SWT.NONE);
 				übersicht.open();
-				
+
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-		});;
-		
+		});
+		;
+
 		MenuItem dieKasse = new MenuItem(menu_1, SWT.NONE);
-		dieKasse.setText("Die Kasse $$$");
+		dieKasse.setText("Die Kasse...");
 		dieKasse.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Kassendiagramm diagramm = new Kassendiagramm(shell, SWT.NONE, players);
+				Kassendiagramm diagramm = new Kassendiagramm(shell, SWT.NONE,
+						players);
 				diagramm.open();
-				
+
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-		});;
-		
-		
-		
+		});
+		;
+
 		fillStatistic(tableItem, tableItem_1, tableItem_2, tableItem_4,
 				tableItem_5);
 
@@ -727,20 +732,17 @@ public class Main {
 						.getGesamteZahlungen()) / 100));
 		shell.layout();
 	}
-	
+
 	public void printVorlage() {
 		WizardDialog dialog = new WizardDialog(shell, new DruckWizard());
 		dialog.open();
 		/*
-			URI uri = new URI("http://gws2.de/px/prev_kniffel1.jpg");
-			File file = new File(uri);
-			DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
-			PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-			aset.add(MediaSizeName.ISO_A4);
-			FileInputStream fis = new FileInputStream(file);
-			DocPrintJob job = printer.createPrintJob();
-			Doc doc = new SimpleDoc(fis, flavor, null);
-			job.print(doc, aset);
-			*/
+		 * URI uri = new URI("http://gws2.de/px/prev_kniffel1.jpg"); File file =
+		 * new File(uri); DocFlavor flavor = DocFlavor.INPUT_STREAM.POSTSCRIPT;
+		 * PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+		 * aset.add(MediaSizeName.ISO_A4); FileInputStream fis = new
+		 * FileInputStream(file); DocPrintJob job = printer.createPrintJob();
+		 * Doc doc = new SimpleDoc(fis, flavor, null); job.print(doc, aset);
+		 */
 	}
 }
