@@ -52,7 +52,7 @@ public class Spielübersicht extends Dialog {
 		shell = new Shell(getParent(), SWT.RESIZE | SWT.DIALOG_TRIM);
 		shell.setLayout(new FillLayout());
 		shell.setSize(450, 300);
-		ScrolledComposite c2 = new ScrolledComposite(shell, SWT.BORDER |SWT.V_SCROLL);
+		ScrolledComposite c2 = new ScrolledComposite(shell, SWT.V_SCROLL);
 	  
 	   
 		Label lbl = new Label(c2, SWT.NONE);
@@ -84,8 +84,8 @@ public class Spielübersicht extends Dialog {
 		 c2.setContent(lbl);
 		 c2.setExpandHorizontal(true);
 		 c2.setExpandVertical(true);
-		 c2.setMinWidth(400);
-		 c2.setMinHeight(400);
+		 c2.setMinWidth(10000);
+		 c2.setMinHeight(10000);
 			
 	}	
 
