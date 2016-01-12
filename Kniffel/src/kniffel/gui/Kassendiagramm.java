@@ -3,6 +3,8 @@ package kniffel.gui;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import kniffel.helpers.Player;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -22,9 +24,6 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import kniffel.helpers.Player;
-import sun.awt.datatransfer.DataTransferer.CharsetComparator;
-
 public class Kassendiagramm extends Dialog {
 
 	protected Object result;
@@ -33,6 +32,7 @@ public class Kassendiagramm extends Dialog {
 
 	/**
 	 * Create the dialog.
+	 * 
 	 * @param parent
 	 * @param style
 	 */
@@ -44,6 +44,7 @@ public class Kassendiagramm extends Dialog {
 
 	/**
 	 * Open the dialog.
+	 * 
 	 * @return the result
 	 */
 	public Object open() {
@@ -67,55 +68,59 @@ public class Kassendiagramm extends Dialog {
 		shell.setSize(450, 300);
 		shell.setText(getText());
 		shell.setLayout(new GridLayout(4, false));
-		 
+
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		double gesamt = 0;
-		for(Player player : players){
+		for (Player player : players) {
 			String name = player.getName();
 			double zahlung = player.getGesamteZahlungen() / 100;
 			dataset.setValue(name, zahlung);
 			gesamt += zahlung;
 		}
-		JFreeChart chart = ChartFactory.createPieChart("Kasse - Kreisdiagramm", dataset);
-		
+
+		JFreeChart chart = ChartFactory.createPieChart("Kasse - Kreisdiagramm",
+				dataset);
+
 		final PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSimpleLabels(true);
-        final PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
-            "{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
-        plot.setLabelGenerator(gen);
-        
+		final PieSectionLabelGenerator gen = new StandardPieSectionLabelGenerator(
+				"{0}: {1} ({2})", new DecimalFormat("0"), new DecimalFormat(
+						"0%"));
+		plot.setLabelGenerator(gen);
+
 		ChartFrame frame = new ChartFrame("yo", chart);
 		frame.pack();
-		final ChartComposite chartcomposite = new ChartComposite(shell, SWT.NONE, chart,true);
+		final ChartComposite chartcomposite = new ChartComposite(shell,
+				SWT.NONE, chart, true);
 		chartcomposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		chartcomposite.setChart(chart); 
+		chartcomposite.setChart(chart);
 		chartcomposite.redraw();
-        
+
 		Label label = new Label(shell, SWT.NONE);
-		label.setText("Gesamt: \n" + Double.toString(Math.round(gesamt*100)/100));
-		
-		new Label(shell,SWT.NONE);
-		Button bt = new Button(shell,SWT.CHECK);
+		label.setText("Gesamt: \n"
+				+ Double.toString(Math.round(gesamt * 100) / 100));
+
+		new Label(shell, SWT.NONE);
+		Button bt = new Button(shell, SWT.CHECK);
 		bt.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if(gen.equals(plot.getLabelGenerator())){
+				if (gen.equals(plot.getLabelGenerator())) {
 					plot.setSimpleLabels(true);
 					plot.setLabelGenerator(null);
-				}else{
+				} else {
 					plot.setLabelGenerator(gen);
 				}
-		        shell.layout();
-				
+				shell.layout();
+
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
-
 }
