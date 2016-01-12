@@ -8,6 +8,8 @@ import kniffel.helpers.Player;
 import kniffel.helpers.Spielergebnis;
 
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 
 public class MainWizard extends Wizard {
 
@@ -27,63 +29,69 @@ public class MainWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		if (canFinish()) {
-			Map<String, Spielergebnis> values = first.getSpielstand();
-			int anzahlSpieler = values.keySet().size();
-			int[] ergebnisse = new int[anzahlSpieler];
-			String[] names = new String[anzahlSpieler];
-
-			for (String key : values.keySet()) {
-				Spielergebnis s = values.get(key);
-				getPlayer(s.getName()).addGespieltesSpiel();
-				getPlayer(s.getName()).addToGesamtpunktzahl(s.getPkt());
-
-				ergebnisse[Integer.parseInt(key)] = Integer
-						.parseInt(s.getPkt());
-			}
-
-			// Hilfsfelder befüllen
-			// ------------------------------------------------
-			Arrays.sort(ergebnisse);
-			for (int x = 0; x < ergebnisse.length; x++) {
+			MessageBox dialog3 = new MessageBox(getShell(),
+					SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+			dialog3.setText("Info");
+			dialog3.setMessage("Ergebnisse speichern?");
+			if(dialog3.open() == SWT.OK){
+				Map<String, Spielergebnis> values = first.getSpielstand();
+				int anzahlSpieler = values.keySet().size();
+				int[] ergebnisse = new int[anzahlSpieler];
+				String[] names = new String[anzahlSpieler];
+	
 				for (String key : values.keySet()) {
 					Spielergebnis s = values.get(key);
-					if (Integer.parseInt(s.getPkt()) == ergebnisse[x]) {
-						names[x] = s.getName();
+					getPlayer(s.getName()).addGespieltesSpiel();
+					getPlayer(s.getName()).addToGesamtpunktzahl(s.getPkt());
+	
+					ergebnisse[Integer.parseInt(key)] = Integer
+							.parseInt(s.getPkt());
+				}
+	
+				// Hilfsfelder befüllen
+				// ------------------------------------------------
+				Arrays.sort(ergebnisse);
+				for (int x = 0; x < ergebnisse.length; x++) {
+					for (String key : values.keySet()) {
+						Spielergebnis s = values.get(key);
+						if (Integer.parseInt(s.getPkt()) == ergebnisse[x]) {
+							names[x] = s.getName();
+						}
 					}
 				}
+				// -------------------------------------------------------------------
+				switch (anzahlSpieler) {
+				case 2:
+					Player player = getPlayer(names[0]);
+					player.addToGesamtzahlungen(ergebnisse[1] - ergebnisse[0]);
+					Player player2 = getPlayer(names[1]);
+					player2.addToGesamtzahlungen(0);
+					break;
+				case 3:
+					Player player3 = getPlayer(names[0]);
+					player3.addToGesamtzahlungen(ergebnisse[2] - ergebnisse[0]
+							+ ergebnisse[1] - ergebnisse[0]);
+					Player player4 = getPlayer(names[1]);
+					player4.addToGesamtzahlungen(ergebnisse[2] - ergebnisse[1]);
+					Player player5 = getPlayer(names[2]);
+					player5.addToGesamtzahlungen(0);
+					break;
+				case 4:
+					Player player6 = getPlayer(names[0]);
+					player6.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[0]
+							+ ergebnisse[2] - ergebnisse[0]);
+					Player player7 = getPlayer(names[1]);
+					player7.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[1]
+							+ ergebnisse[2] - ergebnisse[1]);
+					Player player8 = getPlayer(names[2]);
+					player8.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[2]);
+					Player player9 = getPlayer(names[3]);
+					player9.addToGesamtzahlungen(0);
+					break;
+				}
+	
+				return true;
 			}
-			// -------------------------------------------------------------------
-			switch (anzahlSpieler) {
-			case 2:
-				Player player = getPlayer(names[0]);
-				player.addToGesamtzahlungen(ergebnisse[1] - ergebnisse[0]);
-				Player player2 = getPlayer(names[1]);
-				player2.addToGesamtzahlungen(0);
-				break;
-			case 3:
-				Player player3 = getPlayer(names[0]);
-				player3.addToGesamtzahlungen(ergebnisse[2] - ergebnisse[0]
-						+ ergebnisse[1] - ergebnisse[0]);
-				Player player4 = getPlayer(names[1]);
-				player4.addToGesamtzahlungen(ergebnisse[2] - ergebnisse[1]);
-				Player player5 = getPlayer(names[2]);
-				player5.addToGesamtzahlungen(0);
-				break;
-			case 4:
-				Player player6 = getPlayer(names[0]);
-				player6.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[0]
-						+ ergebnisse[2] - ergebnisse[0]);
-				Player player7 = getPlayer(names[1]);
-				player7.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[1]
-						+ ergebnisse[2] - ergebnisse[1]);
-				Player player8 = getPlayer(names[2]);
-				player8.addToGesamtzahlungen(ergebnisse[3] - ergebnisse[2]);
-				Player player9 = getPlayer(names[3]);
-				player9.addToGesamtzahlungen(0);
-				break;
-			}
-
-			return true;
 		}
 		return false;
 	}

@@ -190,11 +190,6 @@ public class Main {
 				WizardDialog dialog = new WizardDialog(shell, mainWizard);
 				dialog.open();
 				if (dialog.getReturnCode() == 0) {
-					MessageBox dialog3 = new MessageBox(shell,
-							SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
-					dialog3.setText("Info");
-					dialog3.setMessage("Ergebnisse speichern ?");
-					if (dialog3.open() == SWT.OK) {
 						setValuesInStatstxt();
 						displayTableItem(tableItem, "Gesamtzahlungen");
 						displayTableItem(tableItem_1,
@@ -204,16 +199,14 @@ public class Main {
 						displayTableItem(tableItem_4, "Gespielte Spiele");
 						displayTableItem(tableItem_5, "offene Zahlungen");
 						computeGesamt();
-						// --------------------------------------------------
 
-						// --------------------------------------------------
 						PrintWriter pWriter = null;
 						try {
 							BufferedReader in = new BufferedReader(new FileReader(System.getProperty("user.dir") + "\\invisible\\spielübersicht.txt"));
 							String old = "";
 							while(true){
 								String zeile = in.readLine();
-								if(zeile == null)
+								if(zeile == null || zeile.length() == 0)
 									break;
 								old += zeile + "\n";
 							}
@@ -224,8 +217,13 @@ public class Main {
 							Date date = cal.getTime();
 							SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 							String newGame = "Spiel am " + sdf.format(date).toString() +"\n";
+							int anzahl = spielstand.keySet().size();
+							int zähler = 1;
 							for(String id : spielstand.keySet()){
-								newGame += spielstand.get(id).getName() + " " + spielstand.get(id).getPkt() + "\n";
+								newGame += spielstand.get(id).getName() + " " + spielstand.get(id).getPkt();
+								if(zähler < anzahl)
+									newGame += "\n";
+								zähler++;
 							}
 							pWriter.println(newGame);
 							pWriter.println(old);
@@ -237,24 +235,10 @@ public class Main {
 								pWriter.close();
 							}
 						}
-						
-						
-						
-						MessageBox box2 = new MessageBox(shell, SWT.OK);
-						box2.setText("Info");
-						box2.setMessage("Ergebnisse erfolgreich gespeichert");
-						box2.open();
-					} else {
-						MessageBox box = new MessageBox(shell, SWT.OK);
-						box.setText("My info");
-						box.setMessage("Ergebnisse nicht gespeichert !");
-						box.open();
-					}
-
 				}
 
-			}
-		});
+			}}
+		);
 		mntmNeu.setText("Neu");
 
 		MenuItem mntmPdfExportieren = new MenuItem(menu_1, SWT.NONE);
@@ -284,36 +268,36 @@ public class Main {
 		});
 		mntmPdfExportieren.setText("PDF exportieren");
 
-		MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
-		regeln.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				final Browser browser = new Browser(shell, SWT.NONE);
-				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-						true));
-				browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
-				final Button button = new Button(shell, SWT.PUSH);
-				button.setText("Schließen");
-				button.addSelectionListener(new SelectionListener() {
-
-					@Override
-					public void widgetSelected(SelectionEvent arg0) {
-						browser.close();
-						button.dispose();
-						shell.layout();
-
-					}
-
-					@Override
-					public void widgetDefaultSelected(SelectionEvent arg0) {
-
-					}
-				});
-
-				shell.layout();
-			}
-		});
-		regeln.setText("Kniffel Regeln");
+//		MenuItem regeln = new MenuItem(menu_1, SWT.NONE);
+//		regeln.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent arg0) {
+//				final Browser browser = new Browser(shell, SWT.NONE);
+//				browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+//						true));
+//				browser.setUrl("https://de.wikipedia.org/wiki/Kniffel#Spielregeln");
+//				final Button button = new Button(shell, SWT.PUSH);
+//				button.setText("Schließen");
+//				button.addSelectionListener(new SelectionListener() {
+//
+//					@Override
+//					public void widgetSelected(SelectionEvent arg0) {
+//						browser.close();
+//						button.dispose();
+//						shell.layout();
+//
+//					}
+//
+//					@Override
+//					public void widgetDefaultSelected(SelectionEvent arg0) {
+//
+//					}
+//				});
+//
+//				shell.layout();
+//			}
+//		});
+//		regeln.setText("Kniffel Regeln");
 		
 //		//MenuItem vorlageDrucken = new MenuItem(menu_1, SWT.NONE);
 //		//vorlageDrucken.setText("Vorlage drucken");
