@@ -3,6 +3,8 @@ package guessing.game;
 import java.util.Random;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -82,7 +84,20 @@ public class Main {
 		
 		text = new Text(shell, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+		text.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.keyCode == SWT.CR)
+					doEvent();
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		Button guess = new Button(shell, SWT.NONE);
 		guess.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		guess.setText("Guess!");
@@ -109,37 +124,11 @@ public class Main {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				boolean failed = false;
-				String theGuess = text.getText();
-				int intGuess = 0;
-				try {
-					intGuess = Integer.parseInt(theGuess);
-				}catch(NumberFormatException e){
-					failed = true;
-				}
+				doEvent();
 				
-				if(failed)
-					return;
-				
-				if(randomNumber == intGuess){
-					MessageBox box = new MessageBox(shell, SWT.NONE);
-					box.setMessage("Gratuliere!! Die Zahl " + theGuess + " ist richtig  \n Du hast " + versuche.getText() + " Versuche gebraucht");
-					box.open();
-					resetAll();
-					return;
-				}
-				if(randomNumber < intGuess)
-					hint.setText("lower than " + theGuess);
-				if(randomNumber > intGuess)
-					hint.setText("higher than " + theGuess);
-					
-				String versuchanzahl = versuche.getText();
-				int x = Integer.parseInt(versuchanzahl);
-				int y = x+1;
-				versuche.setText(String.valueOf(y));
-				
-				text.setText("");
 			}
+			
+			
 			
 
 			@Override
@@ -149,6 +138,40 @@ public class Main {
 			}
 		});
 
+	}
+
+	protected void doEvent() {
+		boolean failed = false;
+		String theGuess = text.getText();
+		int intGuess = 0;
+		try {
+			intGuess = Integer.parseInt(theGuess);
+		}catch(NumberFormatException e){
+			failed = true;
+		}
+		
+		if(failed)
+			return;
+		
+		if(randomNumber == intGuess){
+			MessageBox box = new MessageBox(shell, SWT.NONE);
+			box.setMessage("Gratuliere!! Die Zahl " + theGuess + " ist richtig  \n Du hast " + versuche.getText() + " Versuche gebraucht");
+			box.open();
+			resetAll();
+			return;
+		}
+		if(randomNumber < intGuess)
+			hint.setText("lower than " + theGuess);
+		if(randomNumber > intGuess)
+			hint.setText("higher than " + theGuess);
+			
+		String versuchanzahl = versuche.getText();
+		int x = Integer.parseInt(versuchanzahl);
+		int y = x+1;
+		versuche.setText(String.valueOf(y));
+		
+		text.setText("");
+		
 	}
 
 	protected void resetAll() {
@@ -164,5 +187,7 @@ public class Main {
 		int value = zufallinho.nextInt(100);
 		return value;
 	}
+	
+	
 
 }
