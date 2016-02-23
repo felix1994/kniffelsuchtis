@@ -28,6 +28,11 @@ public class Start extends Thread {
 				lift.stop();
 				ws.stop();
 				uhr.stop();
+				System.err.println("Leere Sitze: " + lift.getLeereSitze());
+				System.err.println("Insgesamt befördert: "
+						+ lift.getPersBefördert());
+				System.err.println("Kabinen gefahren: "
+						+ lift.getLifteGesamtGefahren());
 				this.stop();
 			}
 			try {

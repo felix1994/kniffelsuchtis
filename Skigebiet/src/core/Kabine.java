@@ -18,6 +18,9 @@ public class Kabine extends Thread {
 	@Override
 	public void run() {
 		try {
+			lift.addToLeereSitze(4 - insassen.size());
+			lift.addToPersBefördert(insassen.size());
+			lift.addToLifteGesamtGefahren(1);
 			Thread.sleep(800);
 			ausladen();
 			Thread.sleep(800);

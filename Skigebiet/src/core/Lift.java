@@ -9,8 +9,12 @@ public class Lift extends Thread {
 
 	private Warteschlange ws;
 	private Uhr uhr;
+	private int leereSitze;
+	private int persBefördert;
+	private int lifteGesamtGefahren;
 
 	public Lift(Warteschlange ws, Uhr uhr) {
+		leereSitze = 0;
 		this.uhr = uhr;
 		this.ws = ws;
 		kabinen = new LinkedList<Kabine>();
@@ -51,6 +55,30 @@ public class Lift extends Thread {
 
 	public Queue<Kabine> getKabinen() {
 		return kabinen;
+	}
+
+	public void addToLeereSitze(int value) {
+		leereSitze += value;
+	}
+
+	public void addToPersBefördert(int value) {
+		persBefördert += value;
+	}
+
+	public void addToLifteGesamtGefahren(int value) {
+		lifteGesamtGefahren += value;
+	}
+
+	public int getLeereSitze() {
+		return leereSitze;
+	}
+
+	public int getPersBefördert() {
+		return persBefördert;
+	}
+
+	public int getLifteGesamtGefahren() {
+		return lifteGesamtGefahren;
 	}
 
 }
