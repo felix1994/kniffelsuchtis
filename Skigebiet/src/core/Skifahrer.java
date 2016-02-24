@@ -49,7 +49,7 @@ public class Skifahrer extends Thread {
 
 			// Auf der Abfahrt, braucht zwischen 4 und 8 Minuten für eine
 			// Abfahrt
-			System.err.println("Fährt los");
+			// System.err.println("Fährt los");
 			sleepi(random.nextInt(400) + 400);
 
 			// Unten angekommen, wieder in Warteschlange oder ganz heim

@@ -2,6 +2,8 @@ verschiedene Alogrithmen für Wartezeiten, Ankunftszeiten von neuen .....
 
 User Interface
 
+regeln dass manchmal nicht alle plätz belegt werden obwohl jemand in ws ist
+
 Statistiken zur Auswertung --> in Datei schreiben
 
 Fall2: Single Rider Warteschlange
