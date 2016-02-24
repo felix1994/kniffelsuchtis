@@ -29,16 +29,13 @@ public class Start extends Thread {
 				ws.stop();
 				uhr.stop();
 				System.err.println("Leere Sitze: " + lift.getLeereSitze());
-				System.err.println("Insgesamt befördert: "
-						+ lift.getPersBefördert());
-				System.err.println("Kabinen gefahren: "
-						+ lift.getLifteGesamtGefahren());
+				System.err.println("Insgesamt befördert: " + lift.getPersBefördert());
+				System.err.println("Kabinen gefahren: " + lift.getLifteGesamtGefahren());
 				this.stop();
 			}
 			try {
 				Thread.sleep(300);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

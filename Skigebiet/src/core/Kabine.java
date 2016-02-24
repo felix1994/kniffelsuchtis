@@ -21,8 +21,10 @@ public class Kabine extends Thread {
 			lift.addToLeereSitze(4 - insassen.size());
 			lift.addToPersBefördert(insassen.size());
 			lift.addToLifteGesamtGefahren(1);
+			// Kabine braucht 8 Minuten hoch
 			Thread.sleep(800);
 			ausladen();
+			// Kabine braucht 8 Minuten runter
 			Thread.sleep(800);
 			lift.getKabinen().add(new Kabine(nr, lift));
 			this.stop();
@@ -33,8 +35,7 @@ public class Kabine extends Thread {
 
 	private void ausladen() {
 		for (Skifahrer s : insassen) {
-			// Skifahrer startet Abfahrt
-
+			s.setImLift(false);
 		}
 		insassen.clear();
 
@@ -57,13 +58,14 @@ public class Kabine extends Thread {
 	}
 
 	public void setzeRein(Skifahrer s) {
+		s.setImLift(true);
+		s.setInWarteschlange(false);
 		insassen.add(s);
 
 	}
 
 	public void fahrLos() {
-		System.out.println("Kabine " + nr + " fährt mit " + insassen.size()
-				+ " los");
+		System.out.println("Kabine " + nr + " fährt mit " + insassen.size() + " los");
 		this.start();
 
 	}

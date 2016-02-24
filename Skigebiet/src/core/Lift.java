@@ -6,7 +6,6 @@ import java.util.Queue;
 public class Lift extends Thread {
 
 	private Queue<Kabine> kabinen;
-
 	private Warteschlange ws;
 	private Uhr uhr;
 	private int leereSitze;
