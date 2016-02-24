@@ -20,6 +20,15 @@ import core.Start;
 public class MainWindow {
 
 	protected Shell shell;
+	private Start start;
+	private Spinner anzahlKabinen;
+	private Spinner anzahlPersUm8;
+	private Spinner abfahrtsdauerMin;
+	private Spinner abfahrtsdauerMax;
+	private Spinner maxSkifahrer;
+	private Spinner liftdauer;
+	private Button btnSpeedDurchlauf;
+	private Button btnStop;
 
 	/**
 	 * Launch the application.
@@ -68,9 +77,19 @@ public class MainWindow {
 		Button btnStart = new Button(composite, SWT.NONE);
 		btnStart.setLayoutData(new RowData(72, 163));
 		btnStart.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Start start = new Start();
+
+				int anzahlKabineni = anzahlKabinen.getSelection();
+				int anzahlPersUm8i = anzahlPersUm8.getSelection();
+				int abfahrtsdauerMaxi = abfahrtsdauerMax.getSelection();
+				int abfahrtsdauerMini = abfahrtsdauerMin.getSelection();
+				int maxSkifahreri = maxSkifahrer.getSelection();
+				int liftdaueri = liftdauer.getSelection();
+				start = new Start(anzahlKabineni, anzahlPersUm8i, abfahrtsdauerMaxi, abfahrtsdauerMini, maxSkifahreri,
+						liftdaueri);
+				btnStop.setEnabled(true);
 			}
 		});
 		btnStart.setText("Start");
@@ -83,24 +102,26 @@ public class MainWindow {
 		lblAnzahlKabinen.setBounds(10, 21, 95, 24);
 		lblAnzahlKabinen.setText("#Kabinen:");
 
-		Spinner anzahlKabinen = new Spinner(grpKonfiguration, SWT.BORDER);
+		anzahlKabinen = new Spinner(grpKonfiguration, SWT.BORDER);
 		anzahlKabinen.setBounds(122, 18, 47, 24);
+		anzahlKabinen.setMaximum(50);
+		anzahlKabinen.setMinimum(10);
 
 		Label lblpersUm = new Label(grpKonfiguration, SWT.NONE);
 		lblpersUm.setBounds(10, 57, 95, 15);
 		lblpersUm.setText("#Pers um 8:00:");
 
-		Spinner anzahlPersUm8 = new Spinner(grpKonfiguration, SWT.BORDER);
+		anzahlPersUm8 = new Spinner(grpKonfiguration, SWT.BORDER);
 		anzahlPersUm8.setBounds(122, 54, 47, 22);
 
 		Label lblAbfahrtsdauerminmax = new Label(grpKonfiguration, SWT.NONE);
 		lblAbfahrtsdauerminmax.setBounds(10, 97, 106, 15);
 		lblAbfahrtsdauerminmax.setText("Abfahrtsdauer Min:");
 
-		Spinner abfahrtsdauerMin = new Spinner(grpKonfiguration, SWT.BORDER);
+		abfahrtsdauerMin = new Spinner(grpKonfiguration, SWT.BORDER);
 		abfahrtsdauerMin.setBounds(122, 94, 47, 22);
 
-		Spinner abfahrtsdauerMax = new Spinner(grpKonfiguration, SWT.BORDER);
+		abfahrtsdauerMax = new Spinner(grpKonfiguration, SWT.BORDER);
 		abfahrtsdauerMax.setBounds(207, 94, 47, 22);
 
 		Label lblMax = new Label(grpKonfiguration, SWT.NONE);
@@ -111,17 +132,17 @@ public class MainWindow {
 		lblmaxSkifahrer.setBounds(10, 142, 116, 15);
 		lblmaxSkifahrer.setText("#Max. Skifahrer:");
 
-		Spinner maxSkifahrer = new Spinner(grpKonfiguration, SWT.BORDER);
+		maxSkifahrer = new Spinner(grpKonfiguration, SWT.BORDER);
 		maxSkifahrer.setBounds(122, 135, 47, 22);
 
 		Label lblLiftdauer = new Label(grpKonfiguration, SWT.NONE);
 		lblLiftdauer.setBounds(265, 21, 88, 15);
 		lblLiftdauer.setText("Liftdauer in min:");
 
-		Spinner spinner = new Spinner(grpKonfiguration, SWT.BORDER);
-		spinner.setBounds(359, 18, 47, 22);
+		liftdauer = new Spinner(grpKonfiguration, SWT.BORDER);
+		liftdauer.setBounds(359, 18, 47, 22);
 
-		Button btnSpeedDurchlauf = new Button(grpKonfiguration, SWT.CHECK);
+		btnSpeedDurchlauf = new Button(grpKonfiguration, SWT.CHECK);
 		btnSpeedDurchlauf.setBounds(265, 56, 124, 16);
 		btnSpeedDurchlauf.setText("Speed Durchlauf");
 
@@ -133,11 +154,30 @@ public class MainWindow {
 		Button btnResetKonfig = new Button(composite, SWT.NONE);
 		btnResetKonfig.setLayoutData(new RowData(73, 48));
 		btnResetKonfig.setText("Reset Konfig");
+		btnResetKonfig.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				anzahlKabinen.setSelection(10);
+				anzahlPersUm8.setSelection(0);
+				abfahrtsdauerMax.setSelection(0);
+				abfahrtsdauerMin.setSelection(0);
+				maxSkifahrer.setSelection(0);
+				liftdauer.setSelection(0);
+				btnSpeedDurchlauf.setSelection(false);
+			}
+		});
 
-		Button btnStop = new Button(composite, SWT.NONE);
+		btnStop = new Button(composite, SWT.NONE);
 		btnStop.setEnabled(false);
 		btnStop.setLayoutData(new RowData(73, 43));
 		btnStop.setText("Stop");
+		btnStop.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				start.stopAll();
+				btnStop.setEnabled(false);
+			}
+		});
 
 		Composite composite_1 = new Composite(shell, SWT.BORDER);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_INFO_BACKGROUND));

@@ -5,13 +5,33 @@ public class Start extends Thread {
 	private Warteschlange ws;
 	private Lift lift;
 	private Uhr uhr;
+	private int anzahlKabinen;
+	private int anzahlPersUm8;
+	private int abfahrtsdauerMax;
+	private int abfahrtsdauerMin;
+	private int maxSkifahrer;
+	private int liftdauer;
 
-	public Start() {
+	public Start(int anzahlKabineni, int anzahlPersUm8i, int abfahrtsdauerMaxi, int abfahrtsdauerMini,
+			int maxSkifahreri, int liftdaueri) {
 		uhr = new Uhr();
 		ws = new Warteschlange(uhr);
 		lift = new Lift(ws, uhr);
 
+		this.anzahlKabinen = anzahlKabineni;
+		this.anzahlPersUm8 = anzahlPersUm8i;
+		this.abfahrtsdauerMax = abfahrtsdauerMaxi;
+		this.abfahrtsdauerMin = abfahrtsdauerMini;
+		this.maxSkifahrer = maxSkifahreri;
+		this.liftdauer = liftdaueri;
+
+		setStandardValuesIfZero();
 		letsGo();
+	}
+
+	private void setStandardValuesIfZero() {
+		// TODO Auto-generated method stub
+		System.err.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 	}
 
 	public void letsGo() {
@@ -39,6 +59,14 @@ public class Start extends Thread {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void stopAll() {
+		lift.stop();
+		ws.stop();
+		uhr.stop();
+		this.stop();
+
 	}
 
 }
