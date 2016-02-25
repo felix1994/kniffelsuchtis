@@ -25,7 +25,6 @@ public class Lift extends Thread {
 	@Override
 	public void run() {
 		while (uhr.getUhrzeit() < 1600) {
-			// System.out.println("Es ist " + uhr.getUhrzeit() + " Uhr");
 			try {
 				// Jede Minute kommt eine Kabine an
 				Thread.sleep(100);
@@ -35,17 +34,18 @@ public class Lift extends Thread {
 
 			Kabine kabine = kabineFüllen();
 			kabine.fahrLos();
-			System.out.println("WS: " + ws.getWs().size());
-			// System.err.println(kabinen.size());
+
 		}
 	}
 
 	private Kabine kabineFüllen() {
 		Kabine kabine = kabinen.poll();
+		System.out.println("WS: " + ws.getWs().size());
 		for (int i = 0; i < 4; i++) {
 			Skifahrer s = ws.getWs().poll();
-			if (s == null)
-				return kabine;
+			if (s == null) {
+				continue;
+			}
 			kabine.setzeRein(s);
 		}
 		return kabine;

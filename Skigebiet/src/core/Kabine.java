@@ -31,6 +31,7 @@ public class Kabine extends Thread {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		ausladen();
 	}
 
 	private void ausladen() {
@@ -65,6 +66,7 @@ public class Kabine extends Thread {
 	}
 
 	public void fahrLos() {
+
 		System.out.println("Kabine " + nr + " fährt mit " + insassen.size() + " los");
 		this.start();
 

@@ -38,10 +38,13 @@ public class Skifahrer extends Thread {
 	public void run() {
 		while (true) {
 			// System.err.println("In WS");
+			int zeit = 0;
 			// Steht in der Warteschlange
-			while (inWarteschlange)
+			while (inWarteschlange) {
 				sleepi(200);
-
+				zeit += 2;
+			}
+			ws.addWartezeit(zeit);
 			// Sitzt im Lift
 			// System.err.println("im Lift");
 			while (imLift)

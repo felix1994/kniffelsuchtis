@@ -21,7 +21,7 @@ public class Uhr extends Thread {
 			if ((uhrzeit % 100) == 60) {
 				uhrzeit += 40;
 			}
-			System.out.println("Uhrzeit: " + uhrzeit);
+			System.err.println("Uhrzeit: " + uhrzeit);
 		}
 
 	}

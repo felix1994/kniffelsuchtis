@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Stack;
+
 public class Start extends Thread {
 
 	private Warteschlange ws;
@@ -30,7 +32,6 @@ public class Start extends Thread {
 	}
 
 	private void setStandardValuesIfZero() {
-		// TODO Auto-generated method stub
 		System.err.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 	}
 
@@ -51,6 +52,14 @@ public class Start extends Thread {
 				System.err.println("Leere Sitze: " + lift.getLeereSitze());
 				System.err.println("Insgesamt befördert: " + lift.getPersBefördert());
 				System.err.println("Kabinen gefahren: " + lift.getLifteGesamtGefahren());
+				System.err.println("Fahrer gesamt: " + ws.getFahrergesamt());
+				Stack<Integer> stack = ws.getWartezeiten();
+				int size = stack.size();
+				int gesamt = 0;
+				while (!stack.isEmpty()) {
+					gesamt += stack.pop();
+				}
+				System.err.println("Durchschnittliche Wartezeit: " + (gesamt / size));
 				this.stop();
 			}
 			try {
