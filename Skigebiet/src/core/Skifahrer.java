@@ -1,97 +1,46 @@
 package core;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
-public class Skifahrer extends Thread {
+public class Skifahrer {
 
-	private boolean inWarteschlange;
-	private boolean imLift;
-	private Uhr uhr;
-	private Random random = new Random();;
-	private int ankunftszeit;
-	private int heimgehzeit;
-	private Warteschlange ws;
+	private int id;
+	private int ankunft;
+	private int ende;
+	private Map<Integer, Set<Skifahrer>> wsInput;
+	private Random random = new Random();
 
-	public Skifahrer(Uhr uhr, Warteschlange warteschlange) {
-		ws = warteschlange;
-		inWarteschlange = true;
-		imLift = false;
-		this.uhr = uhr;
-		ankunftszeit = uhr.getUhrzeit();
-		heimgehzeit = berechneHeimgehzeit();
-		this.start();
+	public Skifahrer(int id, int ankunft, Map<Integer, Set<Skifahrer>> wsInput) {
+		this.wsInput = wsInput;
+		this.id = id;
+		this.ankunft = ankunft;
+		this.ende = ende;
+		ende = berechneEnde(ankunft);
+		berechneFahrzeiten();
 	}
 
-	private int berechneHeimgehzeit() {
-		int[] stunden = { 100, 200, 300, 400, 500, 600 };
+	private int berechneEnde(int uhrzeit) {
+		int[] stunden = { 100, 200, 300, 400, 500, 600, 700 };
 		int[] minuten = { 0, 10, 20, 30, 40, 50 };
-
-		int stunde = stunden[random.nextInt(6)];
-		int min = minuten[random.nextInt(6)];
-		int gesamt = ankunftszeit + stunde + min;
-		if (gesamt > 1600)
-			gesamt = 1600;
-		return gesamt;
+		int ende = uhrzeit + stunden[random.nextInt(7)]
+				+ minuten[random.nextInt(6)];
+		return ende;
 	}
 
-	@Override
-	public void run() {
-		while (true) {
-			// System.err.println("In WS");
-			int zeit = 0;
-			// Steht in der Warteschlange
-			while (inWarteschlange) {
-				sleepi(200);
-				zeit += 2;
+	private void berechneFahrzeiten() {
+		int uhrzeit = ankunft;
+		while (uhrzeit < ende) {
+			// Eine Abfahrt dauert 6 - 11 Minuten
+			uhrzeit += random.nextInt(6) + 6;
+
+			int rest = uhrzeit % 100;
+			if (rest >= 60) {
+				uhrzeit += 40;
 			}
-			ws.addWartezeit(zeit);
-			// Sitzt im Lift
-			// System.err.println("im Lift");
-			while (imLift)
-				sleepi(200);
-
-			// Auf der Abfahrt, braucht zwischen 4 und 8 Minuten für eine
-			// Abfahrt
-			// System.err.println("Fährt los");
-			sleepi(random.nextInt(400) + 400);
-
-			// Unten angekommen, wieder in Warteschlange oder ganz heim
-			if (uhr.getUhrzeit() >= heimgehzeit) {
-				// System.err.println("Geht heim");
-				this.stop();
-			} else {
-				// System.err.println("Stellt sich wieder an");
-				ws.getWs().add(this);
-				inWarteschlange = true;
-				imLift = false;
-			}
-
+			System.out.println(uhrzeit);
+			wsInput.get(uhrzeit).add(this);
 		}
 	}
-
-	private void sleepi(int time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public boolean isInWarteschlange() {
-		return inWarteschlange;
-	}
-
-	public void setInWarteschlange(boolean inWarteschlange) {
-		this.inWarteschlange = inWarteschlange;
-	}
-
-	public boolean isImLift() {
-		return imLift;
-	}
-
-	public void setImLift(boolean imLift) {
-		this.imLift = imLift;
-	}
-
 }

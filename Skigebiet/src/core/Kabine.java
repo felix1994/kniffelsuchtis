@@ -35,9 +35,6 @@ public class Kabine extends Thread {
 	}
 
 	private void ausladen() {
-		for (Skifahrer s : insassen) {
-			s.setImLift(false);
-		}
 		insassen.clear();
 
 	}
@@ -59,15 +56,14 @@ public class Kabine extends Thread {
 	}
 
 	public void setzeRein(Skifahrer s) {
-		s.setImLift(true);
-		s.setInWarteschlange(false);
 		insassen.add(s);
 
 	}
 
 	public void fahrLos() {
 
-		System.out.println("Kabine " + nr + " fährt mit " + insassen.size() + " los");
+		System.out.println("Kabine " + nr + " fährt mit " + insassen.size()
+				+ " los");
 		this.start();
 
 	}

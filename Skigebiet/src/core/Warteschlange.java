@@ -2,7 +2,7 @@ package core;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 public class Warteschlange extends Thread {
@@ -14,9 +14,9 @@ public class Warteschlange extends Thread {
 
 	public Warteschlange(Uhr uhr) {
 		ws = new LinkedList<Skifahrer>();
-		for (int i = 0; i < 50; i++) {
-			ws.add(new Skifahrer(uhr, this));
-		}
+		// for (int i = 0; i < 50; i++) {
+		// ws.add(new SkifahrerHandler(uhr, this));
+		// }
 		this.uhr = uhr;
 	}
 
@@ -24,23 +24,29 @@ public class Warteschlange extends Thread {
 		return ws;
 	}
 
-	@Override
-	public void run() {
-		Random random = new Random();
-		int counter = 51;
-		while (uhr.getUhrzeit() < 1400) {
-			for (int i = 0; i < 5; i++) {
-				ws.add(new Skifahrer(uhr, this));
-				counter++;
-				fahrerGesamt = counter;
-			}
-			try {
-				Thread.sleep(random.nextInt(400) + 1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+	public void addSkifahrer(Set<Skifahrer> fahrer) {
+		for (Skifahrer s : fahrer) {
+			ws.add(s);
 		}
 	}
+
+	// @Override
+	// public void run() {
+	// Random random = new Random();
+	// int counter = 51;
+	// while (uhr.getUhrzeit() < 1400) {
+	// for (int i = 0; i < 5; i++) {
+	// ws.add(new SkifahrerHandler(uhr, this));
+	// counter++;
+	// fahrerGesamt = counter;
+	// }
+	// try {
+	// Thread.sleep(random.nextInt(400) + 1000);
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 
 	public void addWartezeit(int x) {
 		wartezeiten.add(x);

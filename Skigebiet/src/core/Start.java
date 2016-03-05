@@ -5,6 +5,7 @@ import java.util.Stack;
 public class Start extends Thread {
 
 	private Warteschlange ws;
+	private SkifahrerHandler shandler;
 	private Lift lift;
 	private Uhr uhr;
 	private int anzahlKabinen;
@@ -14,11 +15,12 @@ public class Start extends Thread {
 	private int maxSkifahrer;
 	private int liftdauer;
 
-	public Start(int anzahlKabineni, int anzahlPersUm8i, int abfahrtsdauerMaxi, int abfahrtsdauerMini,
-			int maxSkifahreri, int liftdaueri) {
+	public Start(int anzahlKabineni, int anzahlPersUm8i, int abfahrtsdauerMaxi,
+			int abfahrtsdauerMini, int maxSkifahreri, int liftdaueri) {
 		uhr = new Uhr();
 		ws = new Warteschlange(uhr);
 		lift = new Lift(ws, uhr);
+		shandler = new SkifahrerHandler(uhr, ws, 20);
 
 		this.anzahlKabinen = anzahlKabineni;
 		this.anzahlPersUm8 = anzahlPersUm8i;
@@ -37,7 +39,7 @@ public class Start extends Thread {
 
 	public void letsGo() {
 		uhr.start();
-		ws.start();
+		shandler.start();
 		lift.start();
 		this.start();
 	}
@@ -50,8 +52,10 @@ public class Start extends Thread {
 				ws.stop();
 				uhr.stop();
 				System.err.println("Leere Sitze: " + lift.getLeereSitze());
-				System.err.println("Insgesamt befördert: " + lift.getPersBefördert());
-				System.err.println("Kabinen gefahren: " + lift.getLifteGesamtGefahren());
+				System.err.println("Insgesamt befördert: "
+						+ lift.getPersBefördert());
+				System.err.println("Kabinen gefahren: "
+						+ lift.getLifteGesamtGefahren());
 				System.err.println("Fahrer gesamt: " + ws.getFahrergesamt());
 				Stack<Integer> stack = ws.getWartezeiten();
 				int size = stack.size();
@@ -59,7 +63,8 @@ public class Start extends Thread {
 				while (!stack.isEmpty()) {
 					gesamt += stack.pop();
 				}
-				System.err.println("Durchschnittliche Wartezeit: " + (gesamt / size));
+				System.err.println("Durchschnittliche Wartezeit: "
+						+ (gesamt / size));
 				this.stop();
 			}
 			try {
